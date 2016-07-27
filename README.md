@@ -1,5 +1,5 @@
 # Utilites
 
 Useful Links:
-	* [PowerPoint](https://ibm.box.com/s/hb1kn5kvp0aoi5pbdd923zkvh4iesba4)
-	* [Mural](http://mur.al/m700RMLw)
+  * [PowerPoint](https://ibm.box.com/s/hb1kn5kvp0aoi5pbdd923zkvh4iesba4)
+  * [Mural](http://mur.al/m700RMLw)
