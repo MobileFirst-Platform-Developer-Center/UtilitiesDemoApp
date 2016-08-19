@@ -5,4 +5,6 @@ Useful Links:
   * [Mural](http://mur.al/m700RMLw)
   * [Bluemix Asset Inspection App](http://www.ibm.com/mobilefirst/us/en/mobilefirst-for-ios/industries/energy-and-utilities/asset-inspect/)
   * [Box note description](https://ibm.app.box.com/notes/73132132721)
+
+  ## [Ionic Application](./utilites-demo-app)
   
