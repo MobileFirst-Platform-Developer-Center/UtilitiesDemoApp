@@ -7,4 +7,8 @@ Useful Links:
   * [Box note description](https://ibm.app.box.com/notes/73132132721)
 
   ## [Ionic Application](./utilites-demo-app)
+
+  ## MFP Server on Bluemix
+
+  [omega-mfp-dv-server.mybluemix.net](https://omega-mfp-dv-server.mybluemix.net/mfpconsole/)
   
