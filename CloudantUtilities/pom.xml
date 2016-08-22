@@ -47,7 +47,7 @@ limitations under the License.
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- parameters for deploy mfpf adapter -->
-		<mfpfUrl>https://insurance-sample-server.mybluemix.net:443/mfpadmin</mfpfUrl>
+		<mfpfUrl>https://omega-mfp-dv-server.mybluemix.net:443/mfpadmin</mfpfUrl>
 		<mfpfUser>admin</mfpfUser>
 		<mfpfPassword>diRac*ehfr</mfpfPassword>
 		<mfpfRuntime>mfp</mfpfRuntime>
