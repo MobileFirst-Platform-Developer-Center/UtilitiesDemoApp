@@ -17,6 +17,10 @@ angular.module('starter.controllers', [])
   };
 })
 
+.controller('loginCtrl', function($scope) {
+  console.log("Here at login")
+})
+
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
