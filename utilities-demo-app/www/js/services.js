@@ -1,5 +1,13 @@
 angular.module('starter.services', [])
 
+.factory('WorkItems', function () {
+   var o = {
+      items: ["One", "Two", "Three"]
+   }
+
+   return o;
+})
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

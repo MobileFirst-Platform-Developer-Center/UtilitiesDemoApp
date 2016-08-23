@@ -17,8 +17,14 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('loginCtrl', function($scope) {
-  console.log("Here at login")
+.controller('loginCtrl', function($scope, $state) {
+   $scope.login = function () {
+      $state.go('workItems');
+   }
+})
+
+.controller('workItemsCtrl', function($scope, WorkItems) {
+   $scope.items = WorkItems.items
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
