@@ -1,7 +1,13 @@
-<ion-view view-title="Work Item {item.id}" name="item" align-title="center">
+<ion-view view-title="Work Item" name="item" align-title="center">
   <ion-content class="padding">
      <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
      <span class="street">123 Main Street</span><br />
+     <ion-toggle
+         toggle-class="toggle-assertive"
+         ng-model="checked"
+         ng-true-value="'Failed'"
+         ng-false-value="'Passed'"
+         ng-init="checked=false"><pre ng-bind="checked | json"></pre></ion-toggle>
       <ion-input class="item">
          <ion-label>Model</ion-label>
          <input type="text" value="">
@@ -14,6 +20,10 @@
          <ion-label>Version</ion-label>
          <input type="text" value="">
       </ion-input>
+      <ion-item>
+        <span class="input-label">Notes about your visit</span>
+         <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter notes here..."></textarea>
+      </ion-item>
      <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
   </ion-content>
 </ion-view>
