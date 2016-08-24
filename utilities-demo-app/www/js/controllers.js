@@ -32,7 +32,17 @@ angular.module('starter.controllers', [])
 })
 
 .controller('workItemCtrl', function($scope, $state,  WorkItems) {
+   $scope.reportEquipment = function (id) {
+      console.log("this state: " + id)
+      $state.go('reportEquipment')
+   }
+})
 
+.controller('reportEquipmentCtrl', function($scope, $state,  WorkItems) {
+   $scope.submit = function (id) {
+      console.log("this state: " + id)
+      $state.go('workItems')
+   }
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
