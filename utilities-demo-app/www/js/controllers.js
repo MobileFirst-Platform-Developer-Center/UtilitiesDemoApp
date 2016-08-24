@@ -23,8 +23,16 @@ angular.module('starter.controllers', [])
    }
 })
 
-.controller('workItemsCtrl', function($scope, WorkItems) {
+.controller('workItemsCtrl', function($scope, $state,  WorkItems) {
    $scope.items = WorkItems.items
+   $scope.workItem = function (id) {
+      console.log("this state: " + id)
+      $state.go('workItem')
+   }
+})
+
+.controller('workItemCtrl', function($scope, $state,  WorkItems) {
+
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
