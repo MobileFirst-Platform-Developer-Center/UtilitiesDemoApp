@@ -1,6 +1,19 @@
-<ion-view view-title="Work Item {item.id}" name="item">
+<ion-view view-title="Work Item {item.id}" name="item" align-title="center">
   <ion-content class="padding">
-     <h2>Hello</h2>
+     <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
+     <span class="street">123 Main Street</span><br />
+      <ion-input class="item">
+         <ion-label>Model</ion-label>
+         <input type="text" value="">
+      </ion-input>
+      <ion-input class="item">
+         <ion-label>Serial</ion-label>
+         <input type="text" value="">
+      </ion-input>
+      <ion-input class="item">
+         <ion-label>Version</ion-label>
+         <input type="text" value="">
+      </ion-input>
      <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
   </ion-content>
 </ion-view>
