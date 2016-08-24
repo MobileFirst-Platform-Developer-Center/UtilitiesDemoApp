@@ -1,6 +1,11 @@
 <ion-view view-title="Work Item {item.id}" name="item">
   <ion-content class="padding">
-     <h2>Hello</h2>
+     <span>{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
+     <span>123 Main Street</span><br />
+     <ion-item>
+        <span class="input-label">Reason for visit</span><br />
+         <ion-textarea rows="50" placeholder="enter long description here..."></ion-textarea>
+      </ion-item>
      <button class="button button-block button-calm" ng-click="reportEquipment(id)">Report Equipment</button>
   </ion-content>
 </ion-view>
