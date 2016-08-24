@@ -1,8 +1,9 @@
 <ion-view view-title="Login" name="list-items">
   <ion-content class="padding">
    <ion-list>
-      <ion-item ng-repeat="item in items">
-         {{item}}!
+      <ion-item ng-repeat="item in items"
+         ng-click="workItem(item.id)">
+         Item {{item.name}}!
       </ion-item>
    </ion-list>
   </ion-content>

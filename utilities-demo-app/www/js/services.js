@@ -2,7 +2,19 @@ angular.module('starter.services', [])
 
 .factory('WorkItems', function () {
    var o = {
-      items: ["One", "Two", "Three"]
+      items: [
+         {
+            name: 'part',
+            id: 1
+         },
+         {
+            name: 'cannon',
+            id: 2
+         },
+         {
+            name: 'river',
+            id: 3
+         }]
    }
 
    return o;
