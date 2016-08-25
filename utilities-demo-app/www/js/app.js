@@ -44,12 +44,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
      controller : 'workItemsCtrl'
   })
 
-  .state('workItem', {
-     url: '/work-item',
-     templateUrl: 'templates/work-item.html',
-     controller : 'workItemCtrl'
-  })
-
   .state('reportEquipment', {
      url: '/report-equipment',
      templateUrl: 'templates/report-equipment.html',
