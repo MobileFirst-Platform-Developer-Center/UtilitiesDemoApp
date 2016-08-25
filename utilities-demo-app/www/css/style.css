@@ -3,10 +3,24 @@ body {
    font-family: "Arial Black", Gadget, sans-serif;
 }
 .visit {
-display:inline-block;
-width:100%;
+   display:inline-block;
+   width:100%;
+   margin-bottom: 10px;
+}
+.info-item {
+   white-space: nowrap;
+   padding: 0;
+   margin: 0;
+   display: block;
+    width: 100%;
 }
 
+.info-label {
+   float: left;
+   width: 20% !important;
+   margin: 5px;
+   white-space: nowrap;
+}
 .input-label {
    width: 40%;
    float: left;

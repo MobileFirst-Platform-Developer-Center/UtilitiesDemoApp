@@ -1,29 +1,56 @@
 <ion-view view-title="Work Item" name="item" align-title="center">
   <ion-content class="padding">
-     <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
-     <span class="street">123 Main Street</span><br />
-     <ion-toggle
-         toggle-class="toggle-assertive"
-         ng-model="checked"
-         ng-true-value="'Failed'"
-         ng-false-value="'Passed'"
-         ng-init="checked=false"><pre ng-bind="checked | json"></pre></ion-toggle>
-      <ion-input class="item">
-         <ion-label>Model</ion-label>
-         <input type="text" value="">
-      </ion-input>
-      <ion-input class="item">
-         <ion-label>Serial</ion-label>
-         <input type="text" value="">
-      </ion-input>
-      <ion-input class="item">
-         <ion-label>Version</ion-label>
-         <input type="text" value="">
-      </ion-input>
-      <ion-item>
-        <span class="input-label">Notes about your visit</span>
-         <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter notes here..."></textarea>
-      </ion-item>
-     <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
+     <div class = "row">
+       <p ng-controller="reportEquipmentCtrl">{{name}}</p>
+     </div>
+     <div class = "row">
+        <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
+     </div>
+     <div class = "row">
+        <span class="street">123 Main Street</span><br />
+     </div>
+     <div class = "row item-center">
+        <div class = "col text-center">
+            <div class="button-group">
+               <div class="button-label">
+                  <label>Watson Image Recognition</label>
+                  <button class="button button-icon icon ion-android-camera" ng-click="takePicture()"/>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- <div class = "row"> -->
+         <ion-input class="item info-item">
+            <ion-label class="info-label col-4">Model</ion-label>
+            <input class="info-input" type="text" value="">
+         </ion-input>
+         <ion-input class="item info-item">
+            <ion-label class="info-label col-4">Serial</ion-label>
+            <input class="info-input" type="text" value="">
+         </ion-input>
+         <ion-input class="item info-item">
+            <ion-label class="info-label col-4">Version</ion-label>
+            <input class="info-input" type="text" value="">
+         </ion-input>
+      <!-- </div> -->
+      <div class="row visit">
+         <label class="input-label">Reason for visit</label>
+
+         <select class="item item-input item-select" >
+            <option selected>Scheduled</option>
+            <option >Call out</option>
+            <option >Other</option>
+         </select>
+
+      </div>
+      <div class = "row">
+         <ion-item>
+           <span class="input-label">Notes about your visit</span>
+            <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter notes here..."></textarea>
+         </ion-item>
+      </div>
+      <div class = "row">
+         <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
+      </div>
   </ion-content>
 </ion-view>
