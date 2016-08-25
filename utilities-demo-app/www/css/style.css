@@ -1,1 +1,56 @@
 /* Empty. Add your own CSS if you like */
+body {
+   font-family: "Arial Black", Gadget, sans-serif;
+}
+.visit {
+display:inline-block;
+width:100%;
+}
+
+.input-label {
+   width: 40%;
+   float: left;
+   color: black;
+   font-size: 15px;
+}
+label {
+   display:block;
+}
+
+.button-label {
+   display: block;
+}
+
+.button-group {
+   text-align: center;
+}
+
+.item-select {
+  height:8%;
+  margin-top: 3px;
+}
+
+.item-select select {
+  padding-left: 0;
+}
+
+.name {
+   color: red;
+   text-align: center;
+   font-size: 30px;
+   font-family: "Arial Black", Gadget, sans-serif;
+}
+
+.date {
+   color: red;
+   text-align: center;
+   font-size: 24px;
+   font-family: "Arial Black", Gadget, sans-serif;
+}
+
+.street {
+   color: green;
+   text-align: center;
+   font-size: 18px;
+   font-family: "Arial Black", Gadget, sans-serif;
+}
