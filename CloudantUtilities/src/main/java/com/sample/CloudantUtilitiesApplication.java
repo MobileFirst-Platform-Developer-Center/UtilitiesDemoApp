@@ -44,7 +44,7 @@ public class CloudantUtilitiesApplication extends MFPJAXRSApplication{
 
         if (!cloudantDBName.isEmpty() && !cloudantAccount.isEmpty() && !cloudantKey.isEmpty() && !cloudantPassword.isEmpty()){
 			try {
-                CloudantClient cloudantClient = ClientBuilder.account(cloudantAccount).username(cloudantKey).password(cloudantPassword).build(); // new CloudantClient(props, gsonBuilder);
+                CloudantClient cloudantClient = ClientBuilder.account(cloudantAccount).username(cloudantKey).password(cloudantPassword).build();
 				db = cloudantClient.database(cloudantDBName, false);
 			} catch (CouchDbException e){
 				throw new Exception("Unable to connect to Cloudant DB, check the configuration.");

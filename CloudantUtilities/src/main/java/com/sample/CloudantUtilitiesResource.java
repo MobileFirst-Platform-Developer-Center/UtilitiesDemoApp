@@ -65,8 +65,6 @@ public class CloudantUtilitiesResource {
 			public void checkServerTrusted(X509Certificate[] certs, String authType){}
 	}};
 
-    // OkHttpClient client = new OkHttpClient();
-
 	private Database getDB() throws Exception {
 		CloudantUtilitiesApplication app = adaptersAPI.getJaxRsApplication(CloudantUtilitiesApplication.class);
 		if (app.db != null) {
