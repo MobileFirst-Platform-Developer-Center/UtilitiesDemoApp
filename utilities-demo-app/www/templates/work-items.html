@@ -1,10 +1,10 @@
 <ion-view view-title="Work Items" name="list-items" align-title="center">
-  <ion-content class="padding">
-   <ion-list>
-      <ion-item ng-repeat="item in items"
-         ng-click="workItem(item.id)">
-         Item {{item.name}}!
-      </ion-item>
-   </ion-list>
-  </ion-content>
+	<ion-content>
+		<ion-list>
+			<ion-item class="item-icon-right" ng-repeat="item in items" ng-click="workItem(item.id)">
+				Item {{item.name}}
+				<i class="icon ion-ios-arrow-forward"></i>
+			</ion-item>
+		</ion-list>
+	</ion-content>
 </ion-view>
