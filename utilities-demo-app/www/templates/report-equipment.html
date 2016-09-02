@@ -1,56 +1,67 @@
 <ion-view view-title="Work Item" name="item" align-title="center">
   <ion-content class="padding">
-     <div class = "row">
-       <p ng-controller="reportEquipmentCtrl">{{name}}</p>
-     </div>
-     <div class = "row">
-        <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
-     </div>
-     <div class = "row">
-        <span class="street">123 Main Street</span><br />
-     </div>
-     <div class = "row item-center">
-        <div class = "col text-center">
-            <div class="button-group">
-               <div class="button-label">
-                  <label>Watson Image Recognition</label>
-                  <button class="button button-icon icon ion-android-camera" ng-click="takePicture()"/>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- <div class = "row"> -->
-         <ion-input class="item info-item">
-            <ion-label class="info-label col-4">Model</ion-label>
-            <input class="info-input" type="text" value="">
-         </ion-input>
-         <ion-input class="item info-item">
-            <ion-label class="info-label col-4">Serial</ion-label>
-            <input class="info-input" type="text" value="">
-         </ion-input>
-         <ion-input class="item info-item">
-            <ion-label class="info-label col-4">Version</ion-label>
-            <input class="info-input" type="text" value="">
-         </ion-input>
-      <!-- </div> -->
-      <div class="row visit">
-         <label class="input-label">Reason for visit</label>
+  
+    <div class = "row">
+      <p ng-controller="reportEquipmentCtrl">{{name}}</p>
+    </div>
 
-         <select class="item item-input item-select" >
-            <option selected>Scheduled</option>
-            <option >Call out</option>
-            <option >Other</option>
-         </select>
+    <!-- TODO: Make dynamic -->
+    <div class = "row">
+      <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
+    </div>
 
-      </div>
-      <div class = "row">
-         <ion-item>
-           <span class="input-label">Notes about your visit</span>
-            <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter notes here..."></textarea>
-         </ion-item>
-      </div>
-      <div class = "row">
-         <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
-      </div>
+    <!-- TODO: Make dynamic -->
+    <div class = "row">
+      <span class="street">123 Main Street</span><br />
+    </div>
+
+    <div class = "card">
+
+      <!-- Watson Image -->
+      <lable class="item item-icon-right" ng-click="takePicture()">
+        <span class="input-label">Watson Image Recognition</span>
+        <i class="icon ion-camera"></i>
+      </lable>
+
+      <!-- Model -->
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Model</span>
+        <input class="info-input" type="text" value="" placeholder="Model">
+      </label>
+
+      <!-- Serial -->
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Serial</span>
+        <input class="info-input" type="text" value="" placeholder="Serial">
+      </label>
+
+      <!-- Version -->
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Version</span>
+        <input class="item-input" type="text" value="" placeholder="Version">
+      </label>
+
+      <!-- Reason for visit -->
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Reason for visit
+        </div>
+        <select>
+          <option selected>Scheduled</option>
+          <option>Call out</option>
+          <option>Other</option>
+        </select>
+      </label>
+
+      <!-- Notes -->
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Comments</span>
+        <textarea placeholder="enter notes here..."></textarea>
+      </label>
+
+    </div>
+    <!-- Submit button -->
+    <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
+
   </ion-content>
 </ion-view>
