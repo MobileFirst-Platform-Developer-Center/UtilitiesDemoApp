@@ -3,11 +3,15 @@ angular.module('starter.controllers', [])
 .controller('loginCtrl', function($scope, $state, $ionicHistory) {
    $ionicHistory.clearHistory();
    $scope.login = function () {
+
+      // TODO: add authentication here
       $state.go('workItems');
    }
 })
 
 .controller('workItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicHistory, WorkItems, WorkItem) {
+   // Access Cloudant and populate .items with work orders
+
    $scope.items = WorkItems.items
    $ionicHistory.clearHistory();
    $ionicNavBarDelegate.showBackButton(false);
