@@ -1,6 +1,6 @@
 <ion-view view-title="Work Item" name="item" align-title="center">
   <ion-content class="padding">
-  
+
     <div class = "row">
       <p ng-controller="reportEquipmentCtrl">{{name}}</p>
     </div>
@@ -15,34 +15,10 @@
       <span class="street">123 Main Street</span><br />
     </div>
 
-    <div class = "card">
-
-      <!-- Watson Image -->
-      <lable class="item item-icon-right" ng-click="takePicture()">
-        <span class="input-label">Watson Image Recognition</span>
-        <i class="icon ion-camera"></i>
-      </lable>
-
-      <!-- Model -->
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Model</span>
-        <input class="info-input" type="text" value="" placeholder="Model">
-      </label>
-
-      <!-- Serial -->
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Serial</span>
-        <input class="info-input" type="text" value="" placeholder="Serial">
-      </label>
-
-      <!-- Version -->
-      <label class="item item-input item-floating-label">
-        <span class="input-label">Version</span>
-        <input class="item-input" type="text" value="" placeholder="Version">
-      </label>
+    <ion-list>
 
       <!-- Reason for visit -->
-      <label class="item item-input item-select">
+      <ion-item class="item-input item-select">
         <div class="input-label">
           Reason for visit
         </div>
@@ -51,15 +27,39 @@
           <option>Call out</option>
           <option>Other</option>
         </select>
-      </label>
+      </ion-item>
+
+      <!-- Watson Image -->
+      <ion-item class="item-icon-right" ng-click="takePicture()">
+        Watson Image Recognition
+        <i class="icon ion-camera"></i>
+      </ion-item>
+      
+      <!-- Model -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Model</span>
+        <input class="info-input" type="text" value="" placeholder="Model">
+      </ion-item>
+
+      <!-- Serial -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Serial</span>
+        <input class="info-input" type="text" value="" placeholder="Serial">
+      </ion-item>
+
+      <!-- Version -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Version</span>
+        <input class="item-input" type="text" value="" placeholder="Version">
+      </ion-item>
 
       <!-- Notes -->
-      <label class="item item-input item-floating-label">
+      <ion-item class="item-input item-floating-label">
         <span class="input-label">Comments</span>
         <textarea placeholder="enter notes here..."></textarea>
-      </label>
+      </ion-item>
 
-    </div>
+    </ion-list>
     <!-- Submit button -->
     <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
 
