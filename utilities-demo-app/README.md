@@ -13,6 +13,12 @@
 1. Run the following commands
 	* `cordova prepare`
 	* `mfpdev app preview`
+1. Select *Mobile Browser Simulator* with *enter* key
+2. Select whichever operating system you want to test with *space* key
+3. Hit *enter*
 
 Now you will be previewing the application in a simulator that can hit mfp adapters.
 
+## Contributing
+ 1. Make sure you are up to date with: `git pull origin/master`
+ 1. Create a new branch relevant to your work: `git checkout -b {name}`
