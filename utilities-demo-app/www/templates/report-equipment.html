@@ -1,7 +1,7 @@
 <ion-view view-title="Work Item" name="item" align-title="center">
   <ion-content class="padding">
      <div class = "row">
-       <p ng-controller="reportEquipmentCtrl">{{name}}</p>
+       <p>{{name}}</p>
      </div>
      <div class = "row">
         <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
@@ -22,35 +22,47 @@
       <!-- <div class = "row"> -->
          <ion-input class="item info-item">
             <ion-label class="info-label col-4">Model</ion-label>
-            <input class="info-input" type="text" value="">
+            <input class="info-input" type="text" value="" ng-model="details.model">
          </ion-input>
          <ion-input class="item info-item">
             <ion-label class="info-label col-4">Serial</ion-label>
-            <input class="info-input" type="text" value="">
+            <input class="info-input" type="text" value="" ng-model="details.serial">
          </ion-input>
          <ion-input class="item info-item">
-            <ion-label class="info-label col-4">Version</ion-label>
-            <input class="info-input" type="text" value="">
+            <ion-label class="info-label col-4">Manufacturer</ion-label>
+            <input class="info-input" type="text" value="" ng-model="details.manufacturer">
+         </ion-input>
+         <ion-input class="item info-item">
+            <ion-label class="info-label col-4">Manufacture Year</ion-label>
+            <input class="info-input" type="number" value="" ng-model="details.manufactureYear">
+         </ion-input>
+         <ion-input class="item info-item">
+            <ion-label class="info-label col-4">Last Inspection Date</ion-label>
+            <input class="info-input" type="text" value="" ng-model="details.lastInspected">
          </ion-input>
       <!-- </div> -->
       <div class="row visit">
-         <label class="input-label">Reason for visit</label>
-
-         <select class="item item-input item-select" >
-            <option selected>Scheduled</option>
-            <option >Call out</option>
-            <option >Other</option>
+         <label class="input-label">Inspection Status</label>
+         <select class="item item-input item-select" ng-model="fail" ng-change="showReason(fail)">
+            <option ng-selected="selected">Pass</option>
+            <option>Fail</option>
          </select>
 
+      </div>
+      <div class = "row" ng-show="!details.inspectionPass">
+         <ion-item>
+           <span class="input-label">Failure Reason</span>
+            <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter reason here..." ng-model="details.failReason" ng-minlength="1"></textarea>
+         </ion-item>
       </div>
       <div class = "row">
          <ion-item>
            <span class="input-label">Notes about your visit</span>
-            <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter notes here..."></textarea>
+            <textarea class="visit-text-area" rows="5" cols="50" placeholder="enter notes here..." ng-model="details.notes"></textarea>
          </ion-item>
       </div>
       <div class = "row">
-         <button class="button button-block button-calm" ng-click="submit(id)">Submit</button>
+         <button class="button button-block button-calm" ng-disabled="submitDisabled()" ng-click="submit(details)">Submit</button>
       </div>
   </ion-content>
 </ion-view>
