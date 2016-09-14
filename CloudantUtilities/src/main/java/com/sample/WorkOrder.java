@@ -20,7 +20,6 @@ import java.util.Date;
 
 public class WorkOrder {
     private String addedBy, assignedTo, location, _id, _rev;
-    private Integer orderNumber;
     private Date created;
     private boolean inspectionFinished;
     private InspectionDetails details;
@@ -47,16 +46,6 @@ public class WorkOrder {
     }
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    /**
-     * Integers
-     */
-    public Integer getOrderNumber() {
-        return orderNumber;
-    }
-    public void setOrderNumber(Integer orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     /**
@@ -110,7 +99,7 @@ public class WorkOrder {
      * Methods
      */
     public boolean isValid() {
-		if (nonNullAndEmpty(addedBy) && orderNumber!=null) {
+		if (nonNullAndEmpty(addedBy)) {
             if ((inspectionFinished && details.isValid()) || !inspectionFinished) {
                 return true;
             }

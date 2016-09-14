@@ -39,7 +39,7 @@ import com.ibm.json.java.JSONObject;
 import com.ibm.mfp.adapter.api.AdaptersAPI;
 import com.ibm.mfp.adapter.api.ConfigurationAPI;
 import com.worklight.core.auth.OAuthSecurity;
-import org.lightcouch.NoDocumentException;
+import com.cloudant.client.org.lightcouch.NoDocumentException;
 
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.views.Key;
@@ -78,6 +78,26 @@ public class CloudantUtilitiesResource {
 	 * 					WORK ORDERS
 	 *
      ***********************************************/
+
+    // GET all work orders
+ 	@GET
+ // 	@Produces(MediaType.APPLICATION_JSON)
+ 	@Path("/orders")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String post1() {
+        return "Hello from resources";
+    }
+ // 	public Response getOrder(@PathParam("id") String id) throws Exception {
+    //      // Handle SSL issue
+    //      fixSSL();
+    //
+ // 		try {
+ // 			WorkOrder dbOrder = getDB().find(WorkOrder.class, id);
+ // 			return Response.ok(dbOrder).build();
+ // 		} catch(NoDocumentException e){
+ // 			return Response.status(404).build();
+ // 		}
+ // 	}
 
 	// POST a work order
 	@POST
@@ -159,7 +179,6 @@ public class CloudantUtilitiesResource {
 			dbOrder.setAddedBy(order.getAddedBy());
 			dbOrder.setAssignedTo(order.getAssignedTo());
 			dbOrder.setLocation(order.getLocation());
-			dbOrder.setOrderNumber(order.getOrderNumber());
             dbOrder.setInspectionFinished(order.getInspectionFinished());
             dbOrder.setDetails(order.getDetails());
 
@@ -199,7 +218,16 @@ public class CloudantUtilitiesResource {
 	 *
 	 ***********************************************/
 
-     // GET a specific work order
+    // GET all users
+  	@GET
+	// @Produces(MediaType.APPLICATION_JSON)
+  	@Path("/users")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String post2() {
+        return "Hello from resources";
+    }
+
+    // GET a specific work order
  	@GET
  	@Produces(MediaType.APPLICATION_JSON)
  	@Path("/users/{name}")
