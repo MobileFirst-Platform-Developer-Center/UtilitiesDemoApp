@@ -7,11 +7,20 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('workItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicHistory, WorkItems) {
+.controller('workItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicLoading, $ionicHistory, WorkItems) {
    $ionicHistory.clearHistory();
    $ionicNavBarDelegate.showBackButton(false);
-
    $scope.curItem = null;
+
+    $scope.show = function() {
+        $ionicLoading.show({
+            template: '<p>Loading...</p><ion-spinner></ion-spinner>'
+        });
+    };
+
+    $scope.hide = function(){
+        $ionicLoading.hide();
+    };
 
     $scope.doRefresh = function() {
         $scope.loadItems();
@@ -20,6 +29,8 @@ angular.module('starter.controllers', [])
     };
 
     $scope.loadItems = function() {
+        $scope.show($ionicLoading);
+
         // Clear old items and GET new ones
         WorkItems.clear();
 
@@ -52,7 +63,8 @@ angular.module('starter.controllers', [])
 
         //    console.log('items: ' + $scope.items);
 
-           return response.responseJSON;
+            $scope.hide($ionicLoading);
+            return response.responseJSON;
         });
     }
 
