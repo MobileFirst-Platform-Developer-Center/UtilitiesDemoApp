@@ -11,15 +11,13 @@ angular.module('starter.controllers', [])
    $ionicHistory.clearHistory();
    $ionicNavBarDelegate.showBackButton(false);
 
-    // $scope.doRefresh = function() {
-    //     .success(function(newItems) {
-    //         $scope.items = newItems;
-    //     })
-    //     .finally(function() {
-    //         // Stop the ion-refresher from spinning
-    //         $scope.$broadcast('scroll.refreshComplete');
-    //     });
-    // };
+   $scope.curItem = null;
+
+    $scope.doRefresh = function() {
+        $scope.loadItems();
+        // Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+    };
 
     $scope.loadItems = function() {
         // Clear old items and GET new ones
@@ -37,15 +35,28 @@ angular.module('starter.controllers', [])
            }
 
            $scope.items = WorkItems.items;
+
            $scope.$apply();
 
-           console.log('items: ' + $scope.items);
+           $scope.notEmpty = function(json) {
+               if (json._id) {
+                   return true;
+               }
+               return false;
+           }
+
+           if (WorkItems.curItem._id) {
+               $scope.curItem = WorkItems.curItem;
+               $scope.$apply();
+           }
+
+        //    console.log('items: ' + $scope.items);
 
            return response.responseJSON;
         });
     }
 
-   $scope.workItem = function (item) {
+   $scope.workItem = function(item) {
         WorkItems.setWorkItem(item);
         $state.go('reportEquipment');
    }

@@ -18,7 +18,7 @@ angular.module('starter.services', [])
    }
 
    o.clear = function() {
-       o['items'] = [];
+      o['items'] = [];
    }
 
    o.setWorkItem = function(workItem){
