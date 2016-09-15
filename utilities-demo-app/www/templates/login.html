@@ -2,16 +2,24 @@
   <ion-content class="padding">
    <h2 class="name">Acme Utilities</h2>
    <div class="card">
-    <label class="item item-input item-floating-label item-icon-right">
-      <span class="input-label">Username</span>
+
+	<!-- Username -->
+	<ion-item class="item item-input item-floating-label item-icon-right">
+	  <span class="input-label">Username</span>
       <input type="text" placeholder="Username" ng-model="data.username">
       <i class="icon ion-android-person"></i>
-    </label>
-    <label class="item item-input item-floating-label item-icon-right">
-      <span class="input-label">Password</span>
+	</ion-item>
+
+	<!-- Password -->
+	<ion-item class="item item-input item-floating-label item-icon-right">
+	 <span class="input-label">Password</span>
       <input type="password" placeholder="Password" ng-model="data.password">
       <i class="icon ion-locked"></i>
-    </label>
+	</ion-item>
+
+	<!-- Remember me -->
+	<ion-checkbox ng-model="isChecked">Remember me</ion-checkbox>
+  
   </div>
   <button class="button button-block button-calm" ng-click="login()">Login</button>
 </ion-content>

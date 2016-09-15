@@ -1,173 +1,180 @@
 angular.module('starter.controllers', [])
 
 
-.controller('loginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
-    $ionicHistory.clearHistory();
-    $scope.login = function () {
-        $state.go('workItems');
-    }
-})
+// .controller('loginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
+// 	$ionicHistory.clearHistory();
+// 	$scope.login = function () {
+		
+// 		// TODO: Setup login credentials
 
-.controller('workItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicLoading, $ionicHistory, WorkItems) {
-   $ionicHistory.clearHistory();
-   $ionicNavBarDelegate.showBackButton(false);
-   $scope.curItem = null;
 
-    $scope.show = function() {
-        $ionicLoading.show({
-            template: '<p>Loading...</p><ion-spinner></ion-spinner>'
-        });
-    };
 
-    $scope.hide = function(){
-        $ionicLoading.hide();
-    };
 
-    $scope.doRefresh = function() {
-        $scope.loadItems();
-        // Stop the ion-refresher from spinning
-        $scope.$broadcast('scroll.refreshComplete');
-    };
 
-    $scope.loadItems = function() {
-        $scope.show($ionicLoading);
+// 		$state.go('workItems');
+// 	}
+// })
 
-        // Clear old items and GET new ones
-        WorkItems.clear();
+// .controller('workItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicLoading, $ionicHistory, WorkItems) {
+// 	$ionicHistory.clearHistory();
+// 	$ionicNavBarDelegate.showBackButton(false);
+// 	$scope.curItem = null;
 
-        var req = new WLResourceRequest('adapters/CloudantUtilities/users/George Costanza', WLResourceRequest.GET);
+// 	$scope.show = function() {
+// 		$ionicLoading.show({
+// 			template: '<p>Loading...</p><ion-spinner></ion-spinner>'
+// 		});
+// 	};
 
-        req.send().then(function(response){
-           for (i = 0; i < response.responseJSON.length; i++) {
-               var item = response.responseJSON[i];
-               // Keep just finished item out of list (might return before cloudant is updated)
-               if (WorkItems.curItem._id != item._id) {
-                   WorkItems.addItem(item);
-               }
-           }
+// 	$scope.hide = function(){
+// 		$ionicLoading.hide();
+// 	};
 
-           $scope.items = WorkItems.items;
+// 	$scope.doRefresh = function() {
+// 		$scope.loadItems();
+//         // Stop the ion-refresher from spinning
+//         $scope.$broadcast('scroll.refreshComplete');
+//       };
 
-           $scope.$apply();
+//       $scope.loadItems = function() {
+//       	$scope.show($ionicLoading);
 
-           $scope.notEmpty = function(json) {
-               if (json._id) {
-                   return true;
-               }
-               return false;
-           }
+//         // Clear old items and GET new ones
+//         WorkItems.clear();
 
-           if (WorkItems.curItem._id) {
-               $scope.curItem = WorkItems.curItem;
-               $scope.$apply();
-           }
+//         var req = new WLResourceRequest('adapters/CloudantUtilities/users/George Costanza', WLResourceRequest.GET);
 
-        //    console.log('items: ' + $scope.items);
+//         req.send().then(function(response){
+//         	for (i = 0; i < response.responseJSON.length; i++) {
+//         		var item = response.responseJSON[i];
+//                // Keep just finished item out of list (might return before cloudant is updated)
+//                if (WorkItems.curItem._id != item._id) {
+//                	WorkItems.addItem(item);
+//                }
+//              }
 
-            $scope.hide($ionicLoading);
-            return response.responseJSON;
-        });
-    }
+//              $scope.items = WorkItems.items;
 
-   $scope.workItem = function(item) {
-        WorkItems.setWorkItem(item);
-        $state.go('reportEquipment');
-   }
+//              $scope.$apply();
 
-   $scope.loadItems();
-})
+//              $scope.notEmpty = function(json) {
+//              	if (json._id) {
+//              		return true;
+//              	}
+//              	return false;
+//              }
 
-.controller('reportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, WorkItems) {
-   $ionicNavBarDelegate.showBackButton(true);
-   $scope.fail = '';
-   $scope.details = {
-       'model': null,
-       'serial': null,
-       'manufacturer': null,
-       'inspectedBy': "George Costanza",
-       'failReason': null,
-       'fileName': WorkItems.curItem._id + "_inspection.pdf",
-       'notes': null,
-       'manufactureYear': null,
-       'lastInspected': null,
-       'date': null,
-       'inspectionPass': true
-   };
+//              if (WorkItems.curItem._id) {
+//              	$scope.curItem = WorkItems.curItem;
+//              	$scope.$apply();
+//              }
 
-   // Show fail reason input if the inspection has failed
-   $scope.showReason = function(fail) {
-       if (fail == 'Fail') {
-           $scope.details.inspectionPass = false;
-       } else {
-           $scope.details.inspectionPass = true;
-       }
-   }
+//         //    console.log('items: ' + $scope.items);
 
-   // Check whether to disable the submit button
-   $scope.submitDisabled = function() {
-       if (!$scope.details.inspectionPass && ($scope.details.failReason == null || $scope.details.failReason.length < 1)) {
-           return true;
-       }
-       return false;
-   }
+//         $scope.hide($ionicLoading);
+//         return response.responseJSON;
+//       });
+//       }
 
-   // Edit and submit to the adapter
-   $scope.submit = function (details) {
-       // Remove extra JSON fields
-       delete WorkItems.curItem.valid;
-       delete WorkItems.curItem.$$hashKey;
+//       $scope.workItem = function(item) {
+//       	WorkItems.setWorkItem(item);
+//       	$state.go('reportEquipment');
+//       }
 
-       // Edit input values for adapter
-       details.inspectionPass = $scope.details.inspectionPass;
-       details.manufactureYear = parseInt(details.manufactureYear);
-       WorkItems.curItem.inspectionFinished = true;
+//       $scope.loadItems();
+//     })
 
-       // Set new values to body
-       WorkItems.curItem.details = details;
+// .controller('reportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, WorkItems) {
+// 	$ionicNavBarDelegate.showBackButton(true);
+// 	$scope.fail = '';
+// 	$scope.details = {
+// 		'model': null,
+// 		'serial': null,
+// 		'manufacturer': null,
+// 		'inspectedBy': "George Costanza",
+// 		'failReason': null,
+// 		'fileName': WorkItems.curItem._id + "_inspection.pdf",
+// 		'notes': null,
+// 		'manufactureYear': null,
+// 		'lastInspected': null,
+// 		'date': null,
+// 		'inspectionPass': true
+// 	};
 
-        var req = new WLResourceRequest('adapters/CloudantUtilities/orders/' + WorkItems.curItem._id, WLResourceRequest.PUT);
-        req.setHeader('Content-type', 'application/json');
+//    // Show fail reason input if the inspection has failed
+//    $scope.showReason = function(fail) {
+//    	if (fail == 'Fail') {
+//    		$scope.details.inspectionPass = false;
+//    	} else {
+//    		$scope.details.inspectionPass = true;
+//    	}
+//    }
 
-        // console.log(WorkItems.curItem);
+//    // Check whether to disable the submit button
+//    $scope.submitDisabled = function() {
+//    	if (!$scope.details.inspectionPass && ($scope.details.failReason == null || $scope.details.failReason.length < 1)) {
+//    		return true;
+//    	}
+//    	return false;
+//    }
 
-        req.send(WorkItems.curItem).then(
-            function(response) {
-                return response.responseJSON;
-            },
-            function(error) {
-                return response.responseJSON;
-            }
-        );
+//    // Edit and submit to the adapter
+//    $scope.submit = function (details) {
+//        // Remove extra JSON fields
+//        delete WorkItems.curItem.valid;
+//        delete WorkItems.curItem.$$hashKey;
 
-       $state.go('workItems');
-   }
+//        // Edit input values for adapter
+//        details.inspectionPass = $scope.details.inspectionPass;
+//        details.manufactureYear = parseInt(details.manufactureYear);
+//        WorkItems.curItem.inspectionFinished = true;
 
-   $scope.takePicture = function () {
-		//noinspection JSUnresolvedVariable
-		var isEmulator = device.model.indexOf("x86") > -1;
+//        // Set new values to body
+//        WorkItems.curItem.details = details;
 
-		var cameraOptions = {
-			quality: 50,
-			destinationType: Camera.DestinationType.DATA_URL,
-			encodingType: Camera.EncodingType.PNG,
-			targetWidth: 300,
-			targetHeight: 170,
-			sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
-		};
+//        var req = new WLResourceRequest('adapters/CloudantUtilities/orders/' + WorkItems.curItem._id, WLResourceRequest.PUT);
+//        req.setHeader('Content-type', 'application/json');
 
-      navigator.camera.getPicture(successImage, cameraError, cameraOptions);
-	};
+//         // console.log(WorkItems.curItem);
 
-   function successImage(imgData) {
-		$scope.img = 'data:image/jpeg;base64,' + imgData;
-		$scope.$apply();
-	}
+//         req.send(WorkItems.curItem).then(
+//         	function(response) {
+//         		return response.responseJSON;
+//         	},
+//         	function(error) {
+//         		return response.responseJSON;
+//         	}
+//         	);
 
-   function cameraError() {
-		alert('Error taking the picture.');
-	}
-})
+//         $state.go('workItems');
+//       }
 
-.controller('pictureCtrl', function($scope) {
+//       $scope.takePicture = function () {
+// 		//noinspection JSUnresolvedVariable
+// 		var isEmulator = device.model.indexOf("x86") > -1;
 
-});
+// 		var cameraOptions = {
+// 			quality: 50,
+// 			destinationType: Camera.DestinationType.DATA_URL,
+// 			encodingType: Camera.EncodingType.PNG,
+// 			targetWidth: 300,
+// 			targetHeight: 170,
+// 			sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
+// 		};
+
+// 		navigator.camera.getPicture(successImage, cameraError, cameraOptions);
+// 	};
+
+// 	function successImage(imgData) {
+// 		$scope.img = 'data:image/jpeg;base64,' + imgData;
+// 		$scope.$apply();
+// 	}
+
+// 	function cameraError() {
+// 		alert('Error taking the picture.');
+// 	}
+// })
+
+// .controller('pictureCtrl', function($scope) {
+
+// });
