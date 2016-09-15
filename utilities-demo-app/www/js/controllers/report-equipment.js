@@ -1,4 +1,4 @@
-app..controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, $rootScope, $ionicPopup, WorkItems) {
+app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, $rootScope, $ionicPopup, WorkItems) {
 	$ionicNavBarDelegate.showBackButton(true);
 	$scope.fail = '';
 	$scope.details = {
@@ -106,4 +106,4 @@ app..controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDele
   function cameraError() {
   	alert('Error taking the picture.');
   }
-})
+});

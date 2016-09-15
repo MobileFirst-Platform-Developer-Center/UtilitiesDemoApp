@@ -10,4 +10,4 @@ app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
 
 		$state.go('workItems');
 	}
-})
+});

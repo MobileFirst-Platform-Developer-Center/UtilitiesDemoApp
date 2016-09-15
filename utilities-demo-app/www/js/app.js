@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var app = angular.module('starter', ['ionic', 'starter.services'])
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -35,19 +35,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
   .state('login', {
      url: '/login',
      templateUrl: 'templates/login.html',
-     controller : 'loginCtrl'
+     controller : 'LoginCtrl'
   })
 
   .state('workItems', {
      url: '/work-items',
      templateUrl: 'templates/work-items.html',
-     controller : 'workItemsCtrl'
+     controller : 'WorkItemsCtrl'
   })
 
   .state('reportEquipment', {
      url: '/report-equipment',
      templateUrl: 'templates/report-equipment.html',
-     controller : 'reportEquipmentCtrl'
+     controller : 'ReportEquipmentCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback
