@@ -8,12 +8,12 @@
 var app = angular.module('starter', ['ionic']);
 
 app.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+	$ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+    	cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    	cordova.plugins.Keyboard.disableScroll(true);
 
     }
     if (window.StatusBar) {
@@ -33,21 +33,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   // setup an abstract state for the tabs directive
   .state('login', {
-     url: '/login',
-     templateUrl: 'templates/login.html',
-     controller : 'LoginCtrl'
+  	url: '/login',
+  	templateUrl: 'templates/login.html',
+  	controller : 'LoginCtrl'
   })
 
   .state('workItems', {
-     url: '/work-items',
-     templateUrl: 'templates/work-items.html',
-     controller : 'WorkItemsCtrl'
+  	url: '/work-items',
+  	templateUrl: 'templates/work-items.html',
+  	controller : 'WorkItemsCtrl'
   })
 
   .state('reportEquipment', {
-     url: '/report-equipment',
-     templateUrl: 'templates/report-equipment.html',
-     controller : 'ReportEquipmentCtrl'
+  	url: '/report-equipment',
+  	templateUrl: 'templates/report-equipment.html',
+  	controller : 'ReportEquipmentCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback
