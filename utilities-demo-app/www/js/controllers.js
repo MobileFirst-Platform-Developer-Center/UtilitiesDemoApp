@@ -9,26 +9,30 @@ angular.module('starter.controllers', [])
 })
 
 .controller('workItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicLoading, $ionicHistory, WorkItems) {
-   $ionicHistory.clearHistory();
-   $ionicNavBarDelegate.showBackButton(false);
-   $scope.curItem = null;
+    $ionicHistory.clearHistory();
+    $ionicNavBarDelegate.showBackButton(false);
+    $scope.curItem = null;
 
+    // Show the loading popup
     $scope.show = function() {
         $ionicLoading.show({
             template: '<p>Loading...</p><ion-spinner></ion-spinner>'
         });
     };
 
+    // Hide the loading popup
     $scope.hide = function(){
         $ionicLoading.hide();
     };
 
+    // Pull down to refresh
     $scope.doRefresh = function() {
         $scope.loadItems();
         // Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
     };
 
+    // GET the orders from cloudant
     $scope.loadItems = function() {
         $scope.show($ionicLoading);
 
@@ -47,37 +51,28 @@ angular.module('starter.controllers', [])
            }
 
            $scope.items = WorkItems.items;
-
            $scope.$apply();
-
-           $scope.notEmpty = function(json) {
-               if (json._id) {
-                   return true;
-               }
-               return false;
-           }
 
            if (WorkItems.curItem._id) {
                $scope.curItem = WorkItems.curItem;
                $scope.$apply();
            }
 
-        //    console.log('items: ' + $scope.items);
-
             $scope.hide($ionicLoading);
             return response.responseJSON;
         });
     }
 
-   $scope.workItem = function(item) {
+    // Select the work item to report
+    $scope.workItem = function(item) {
         WorkItems.setWorkItem(item);
         $state.go('reportEquipment');
-   }
+    }
 
-   $scope.loadItems();
+    $scope.loadItems();
 })
 
-.controller('reportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, WorkItems) {
+.controller('reportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, $rootScope, $ionicPopup, WorkItems) {
    $ionicNavBarDelegate.showBackButton(true);
    $scope.fail = '';
    $scope.details = {
@@ -93,6 +88,25 @@ angular.module('starter.controllers', [])
        'date': null,
        'inspectionPass': true
    };
+
+   // Var for original back function
+   var oldSoftBack = $rootScope.$ionicGoBack;
+
+    // Show warning popup when back is pressed
+    $rootScope.$ionicGoBack = function() {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Warning',
+            template: 'The data on this page has not been submitted and will be lost. Continue?'
+        });
+
+        confirmPopup.then(function(res) {
+            if(res) {
+                $state.go('workItems');
+            } else {
+                // do nothing
+            }
+        });
+    };
 
    // Show fail reason input if the inspection has failed
    $scope.showReason = function(fail) {
