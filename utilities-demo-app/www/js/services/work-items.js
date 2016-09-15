@@ -1,31 +1,31 @@
 app.factory('WorkItems', function () {
-   var o = {
-      items: [],
-      curItem: {}
-   }
+	var o = {
+		items: [],
+		curItem: {}
+	}
 
-   o.addItem = function(item){
-      o['items'].push(item);
-   }
+	o.addItem = function(item){
+		o['items'].push(item);
+	}
 
-   o.removeItem = function(item){
-      var index = o['items'].indexOf(item);
-      if (index > -1) {
-         o['items'].splice(index, 1);
-      }
-   }
+	o.removeItem = function(item){
+		var index = o['items'].indexOf(item);
+		if (index > -1) {
+			o['items'].splice(index, 1);
+		}
+	}
 
-   o.clear = function() {
-      o['items'] = [];
-   }
+	o.clear = function() {
+		o['items'] = [];
+	}
 
-   o.setWorkItem = function(workItem){
-      o['curItem'] = workItem;
-   }
+	o.setWorkItem = function(workItem){
+		o['curItem'] = workItem;
+	}
 
-   o.removeWorkItem = function(){
-      o['curItem'] = {};
-   }
+	o.removeWorkItem = function(){
+		o['curItem'] = {};
+	}
 
-   return o;
+	return o;
 });
