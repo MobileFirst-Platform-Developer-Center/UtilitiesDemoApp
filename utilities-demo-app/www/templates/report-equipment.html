@@ -6,12 +6,12 @@
 
     <!-- TODO: Make dynamic -->
     <div class = "row">
-      <span class="date">{{'1288323623006' | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
+      <span class="date">{{date | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
     </div>
 
     <!-- TODO: Make dynamic -->
     <div class = "row">
-      <span class="street">123 Main Street</span><br />
+      <span class="street">{{item.location}}</span><br />
     </div>
 
     <ion-list>

@@ -1,6 +1,8 @@
 app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, $rootScope, $ionicPopup, WorkItems) {
 	$ionicNavBarDelegate.showBackButton(true);
 	$scope.fail = '';
+	$scope.date = new Date();
+	$scope.item = WorkItems.curItem;
 	$scope.details = {
 		'model': null,
 		'serial': null,
@@ -15,8 +17,8 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 		'inspectionPass': true
 	};
 
-   // Var for original back function
-   var oldSoftBack = $rootScope.$ionicGoBack;
+	// Var for original back function
+	var oldSoftBack = $rootScope.$ionicGoBack;
 
     // Show warning popup when back is pressed
     $rootScope.$ionicGoBack = function() {
@@ -28,31 +30,29 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
     	confirmPopup.then(function(res) {
     		if(res) {
     			$state.go('workItems');
-    		} else {
-                // do nothing
-              }
-            });
+    		}
+        });
     };
 
-   // Show fail reason input if the inspection has failed
-   $scope.showReason = function(fail) {
-   	if (fail == 'Fail') {
-   		$scope.details.inspectionPass = false;
-   	} else {
-   		$scope.details.inspectionPass = true;
-   	}
-   }
+	// Show fail reason input if the inspection has failed
+	$scope.showReason = function(fail) {
+		if (fail == 'Fail') {
+			$scope.details.inspectionPass = false;
+		} else {
+			$scope.details.inspectionPass = true;
+		}
+	}
 
-   // Check whether to disable the submit button
-   $scope.submitDisabled = function() {
-   	if (!$scope.details.inspectionPass && ($scope.details.failReason == null || $scope.details.failReason.length < 1)) {
-   		return true;
-   	}
-   	return false;
-   }
+	// Check whether to disable the submit button
+	$scope.submitDisabled = function() {
+		if (!$scope.details.inspectionPass && ($scope.details.failReason == null || $scope.details.failReason.length < 1)) {
+			return true;
+		}
+		return false;
+	}
 
-   // Edit and submit to the adapter
-   $scope.submit = function (details) {
+	// Edit and submit to the adapter
+	$scope.submit = function (details) {
        // Remove extra JSON fields
        delete WorkItems.curItem.valid;
        delete WorkItems.curItem.$$hashKey;
@@ -82,28 +82,28 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
         $state.go('workItems');
       }
 
-      $scope.takePicture = function () {
-    //noinspection JSUnresolvedVariable
-    var isEmulator = device.model.indexOf("x86") > -1;
+    $scope.takePicture = function () {
+	    //noinspection JSUnresolvedVariable
+	    var isEmulator = device.model.indexOf("x86") > -1;
 
-    var cameraOptions = {
-    	quality: 50,
-    	destinationType: Camera.DestinationType.DATA_URL,
-    	encodingType: Camera.EncodingType.PNG,
-    	targetWidth: 300,
-    	targetHeight: 170,
-    	sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
-    };
+	    var cameraOptions = {
+	    	quality: 50,
+	    	destinationType: Camera.DestinationType.DATA_URL,
+	    	encodingType: Camera.EncodingType.PNG,
+	    	targetWidth: 300,
+	    	targetHeight: 170,
+	    	sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
+	    };
 
-    navigator.camera.getPicture(successImage, cameraError, cameraOptions);
-  };
+	    navigator.camera.getPicture(successImage, cameraError, cameraOptions);
+	};
 
-  function successImage(imgData) {
-  	$scope.img = 'data:image/jpeg;base64,' + imgData;
-  	$scope.$apply();
-  }
+	function successImage(imgData) {
+		$scope.img = 'data:image/jpeg;base64,' + imgData;
+		$scope.$apply();
+	}
 
-  function cameraError() {
-  	alert('Error taking the picture.');
-  }
+	function cameraError() {
+		alert('Error taking the picture.');
+	}
 });
