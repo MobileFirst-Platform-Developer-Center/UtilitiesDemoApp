@@ -80,7 +80,7 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
         	);
 
         $state.go('workItems');
-      }
+    }
 
     $scope.takePicture = function () {
 	    //noinspection JSUnresolvedVariable
