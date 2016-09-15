@@ -1,4 +1,4 @@
-app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, WorkItems) {
+app..controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDelegate, $rootScope, $ionicPopup, WorkItems) {
 	$ionicNavBarDelegate.showBackButton(true);
 	$scope.fail = '';
 	$scope.details = {
@@ -14,6 +14,25 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 		'date': null,
 		'inspectionPass': true
 	};
+
+   // Var for original back function
+   var oldSoftBack = $rootScope.$ionicGoBack;
+
+    // Show warning popup when back is pressed
+    $rootScope.$ionicGoBack = function() {
+    	var confirmPopup = $ionicPopup.confirm({
+    		title: 'Warning',
+    		template: 'The data on this page has not been submitted and will be lost. Continue?'
+    	});
+
+    	confirmPopup.then(function(res) {
+    		if(res) {
+    			$state.go('workItems');
+    		} else {
+                // do nothing
+              }
+            });
+    };
 
    // Show fail reason input if the inspection has failed
    $scope.showReason = function(fail) {
@@ -64,27 +83,27 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
       }
 
       $scope.takePicture = function () {
-		//noinspection JSUnresolvedVariable
-		var isEmulator = device.model.indexOf("x86") > -1;
+    //noinspection JSUnresolvedVariable
+    var isEmulator = device.model.indexOf("x86") > -1;
 
-		var cameraOptions = {
-			quality: 50,
-			destinationType: Camera.DestinationType.DATA_URL,
-			encodingType: Camera.EncodingType.PNG,
-			targetWidth: 300,
-			targetHeight: 170,
-			sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
-		};
+    var cameraOptions = {
+    	quality: 50,
+    	destinationType: Camera.DestinationType.DATA_URL,
+    	encodingType: Camera.EncodingType.PNG,
+    	targetWidth: 300,
+    	targetHeight: 170,
+    	sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
+    };
 
-		navigator.camera.getPicture(successImage, cameraError, cameraOptions);
-	};
+    navigator.camera.getPicture(successImage, cameraError, cameraOptions);
+  };
 
-	function successImage(imgData) {
-		$scope.img = 'data:image/jpeg;base64,' + imgData;
-		$scope.$apply();
-	}
+  function successImage(imgData) {
+  	$scope.img = 'data:image/jpeg;base64,' + imgData;
+  	$scope.$apply();
+  }
 
-	function cameraError() {
-		alert('Error taking the picture.');
-	}
+  function cameraError() {
+  	alert('Error taking the picture.');
+  }
 })

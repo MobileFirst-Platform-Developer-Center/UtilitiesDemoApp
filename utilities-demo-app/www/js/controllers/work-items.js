@@ -3,24 +3,28 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 	$ionicNavBarDelegate.showBackButton(false);
 	$scope.curItem = null;
 
-	$scope.show = function() {
-		$ionicLoading.show({
-			template: '<p>Loading...</p><ion-spinner></ion-spinner>'
-		});
-	};
+    // Show the loading popup
+    $scope.show = function() {
+    	$ionicLoading.show({
+    		template: '<p>Loading...</p><ion-spinner></ion-spinner>'
+    	});
+    };
 
-	$scope.hide = function(){
-		$ionicLoading.hide();
-	};
+    // Hide the loading popup
+    $scope.hide = function(){
+    	$ionicLoading.hide();
+    };
 
-	$scope.doRefresh = function() {
-		$scope.loadItems();
+    // Pull down to refresh
+    $scope.doRefresh = function() {
+    	$scope.loadItems();
         // Stop the ion-refresher from spinning
         $scope.$broadcast('scroll.refreshComplete');
       };
 
-      $scope.loadItems = function() {
-      	$scope.show($ionicLoading);
+    // GET the orders from cloudant
+    $scope.loadItems = function() {
+    	$scope.show($ionicLoading);
 
         // Clear old items and GET new ones
         WorkItems.clear();
@@ -37,32 +41,23 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
              }
 
              $scope.items = WorkItems.items;
-
              $scope.$apply();
-
-             $scope.notEmpty = function(json) {
-             	if (json._id) {
-             		return true;
-             	}
-             	return false;
-             }
 
              if (WorkItems.curItem._id) {
              	$scope.curItem = WorkItems.curItem;
              	$scope.$apply();
              }
 
-        //    console.log('items: ' + $scope.items);
-
-        $scope.hide($ionicLoading);
-        return response.responseJSON;
-      });
+             $scope.hide($ionicLoading);
+             return response.responseJSON;
+           });
       }
 
-      $scope.workItem = function(item) {
-      	WorkItems.setWorkItem(item);
-      	$state.go('reportEquipment');
-      }
+    // Select the work item to report
+    $scope.workItem = function(item) {
+    	WorkItems.setWorkItem(item);
+    	$state.go('reportEquipment');
+    }
 
-      $scope.loadItems();
-    })
+    $scope.loadItems();
+  })

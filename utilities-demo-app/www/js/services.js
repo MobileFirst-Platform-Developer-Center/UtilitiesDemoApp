@@ -30,19 +30,4 @@ angular.module('starter.services', [])
    }
 
    return o;
-})
-
-// .factory('WorkItem', function() {
-//    var o = {
-//        item: {}
-//    }
-//
-//    o.setWorkItem = function(workItem){
-//       o['item'] = workItem;
-//    }
-//
-//    o.removeWorkItem = function(){
-//       o = null;
-//    }
-//    return o;
-// });
+});

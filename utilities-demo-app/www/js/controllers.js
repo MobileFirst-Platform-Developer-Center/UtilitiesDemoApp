@@ -1,6 +1,5 @@
 angular.module('starter.controllers', [])
 
-
 // .controller('loginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
 // 	$ionicHistory.clearHistory();
 // 	$scope.login = function () {
