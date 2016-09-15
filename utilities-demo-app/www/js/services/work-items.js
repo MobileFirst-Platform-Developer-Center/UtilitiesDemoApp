@@ -1,6 +1,4 @@
-angular.module('starter.services', [])
-
-.factory('WorkItems', function () {
+app.factory('WorkItems', function () {
    var o = {
       items: [],
       curItem: {}
