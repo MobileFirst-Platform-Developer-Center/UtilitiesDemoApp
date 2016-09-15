@@ -4,6 +4,3 @@
 node_modules/
 platforms/
 plugins/
-
-adapters/CloudantUtilities/target/
-adapters/UserLoginAdapters/target/
