@@ -5,15 +5,15 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var app = angular.module('starter', ['ionic']);
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+app.run(function($ionicPlatform) {
+	$ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+    	cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    	cordova.plugins.Keyboard.disableScroll(true);
 
     }
     if (window.StatusBar) {
@@ -21,9 +21,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
   });
-})
+});
 
-.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -33,21 +33,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // setup an abstract state for the tabs directive
   .state('login', {
-     url: '/login',
-     templateUrl: 'templates/login.html',
-     controller : 'loginCtrl'
+  	url: '/login',
+  	templateUrl: 'templates/login.html',
+  	controller : 'LoginCtrl'
   })
 
   .state('workItems', {
-     url: '/work-items',
-     templateUrl: 'templates/work-items.html',
-     controller : 'workItemsCtrl'
+  	url: '/work-items',
+  	templateUrl: 'templates/work-items.html',
+  	controller : 'WorkItemsCtrl'
   })
 
   .state('reportEquipment', {
-     url: '/report-equipment',
-     templateUrl: 'templates/report-equipment.html',
-     controller : 'reportEquipmentCtrl'
+  	url: '/report-equipment',
+  	templateUrl: 'templates/report-equipment.html',
+  	controller : 'ReportEquipmentCtrl'
   })
 
   // if none of the above states are matched, use this as the fallback
