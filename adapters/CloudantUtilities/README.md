@@ -13,7 +13,6 @@
   "addedBy": "Cosmo Kramer",
   "assignedTo": "George Costanza",
   "location": "Durham, NC",
-  "orderNumber": 2,
   "created": "Aug 11, 2016 1:47:59 PM",
   "inspectionFinished": true,
   "details": 
@@ -34,7 +33,6 @@
 ```
 - Required fields
 	- `addedBy`
-	- `orderNumber` 
 	- `inspectionFinished` - boolean "true" or "false"
 - Conditional fields
 	- `details` - only if `inspectionFinished` is "true"
@@ -68,7 +66,6 @@ This is the json structure for POSTing and PUTing users:
 
 ```json
 {
-  "orderNumber":2,
   "addedBy":"Cosmo Kramer",
   "assignedTo":"George Costanza",
   "location":"Durham, NC",
