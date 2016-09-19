@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class InspectionDetails {
     private String model, serial, manufacturer, inspectedBy, failReason, fileName, notes;
-    private Integer orderNumber, manufactureYear;
+    private Integer manufactureYear;
     private Date lastInspected, date;
     private boolean inspectionPass;
 
@@ -79,13 +79,6 @@ public class InspectionDetails {
     /**
      * Integers
      */
-    // public Integer getOrderNumber() {
-    //     return orderNumber;
-    // }
-    // public void setOrderNumber(Integer orderNumber) {
-    //     this.orderNumber = orderNumber;
-    // }
-
     public Integer getManufactureYear() {
         return manufactureYear;
     }

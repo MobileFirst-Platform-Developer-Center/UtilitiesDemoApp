@@ -6,7 +6,7 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
     // Show the loading popup
     $scope.show = function() {
     	$ionicLoading.show({
-    		template: '<p>Loading...</p><ion-spinner></ion-spinner>'
+    		template: '<p>Loading work orders...</p><ion-spinner></ion-spinner>'
     	});
     };
 
