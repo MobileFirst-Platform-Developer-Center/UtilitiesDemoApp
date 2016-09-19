@@ -82,8 +82,9 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
         $state.go('workItems');
     }
 
-    $scope.takePicture = function () {
+    $scope.recordVoice = function () {
 	    //noinspection JSUnresolvedVariable
+      /*
 	    var isEmulator = device.model.indexOf("x86") > -1;
 
 	    var cameraOptions = {
@@ -96,14 +97,24 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 	    };
 
 	    navigator.camera.getPicture(successImage, cameraError, cameraOptions);
+      */
+
+      navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1});
 	};
 
-	function successImage(imgData) {
-		$scope.img = 'data:image/jpeg;base64,' + imgData;
-		$scope.$apply();
-	}
 
-	function cameraError() {
-		alert('Error taking the picture.');
-	}
+  // capture callback, from Cordova documentation
+  var captureSuccess = function(mediaFiles) {
+      var i, path, len;
+      for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+          path = mediaFiles[i].fullPath;
+          // do something interesting with the file
+      }
+  };
+
+  // capture error callback, from Cordova documentation
+  var captureError = function(error) {
+      navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+  };
+
 });
