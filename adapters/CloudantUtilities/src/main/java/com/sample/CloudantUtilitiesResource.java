@@ -37,7 +37,7 @@ import java.security.SecureRandom;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 import com.ibm.mfp.adapter.api.AdaptersAPI;
-import com.ibm.mfp.adapter.api.ConfigurationAPI;
+// import com.ibm.mfp.adapter.api.ConfigurationAPI;
 import com.worklight.core.auth.OAuthSecurity;
 import com.cloudant.client.org.lightcouch.NoDocumentException;
 
@@ -55,15 +55,8 @@ public class CloudantUtilitiesResource {
 	@Context
 	AdaptersAPI adaptersAPI;
 
-    @Context
-	ConfigurationAPI configurationAPI;
-
-    // Override SSL Trust manager without certificate chains validation
-	TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager(){
-			public X509Certificate[] getAcceptedIssuers(){return null;}
-			public void checkClientTrusted(X509Certificate[] certs, String authType){}
-			public void checkServerTrusted(X509Certificate[] certs, String authType){}
-	}};
+    // @Context
+	// ConfigurationAPI configurationAPI;
 
 	private Database getDB() throws Exception {
 		CloudantUtilitiesApplication app = adaptersAPI.getJaxRsApplication(CloudantUtilitiesApplication.class);
@@ -73,31 +66,35 @@ public class CloudantUtilitiesResource {
 		throw new Exception("Unable to connect to Cloudant DB, check the configuration.");
 	}
 
+	// Override SSL Trust manager without certificate chains validation
+	TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager(){
+			public X509Certificate[] getAcceptedIssuers(){return null;}
+			public void checkClientTrusted(X509Certificate[] certs, String authType){}
+			public void checkServerTrusted(X509Certificate[] certs, String authType){}
+	}};
+
+	public void fixSSL() {
+        // Initializes this context with all-trusting host verifier.
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (Exception e) {;}
+    }
+
 	/************************************************
 	 *
 	 * 					WORK ORDERS
 	 *
      ***********************************************/
 
-    // GET all work orders
+    // Basic GET for base path
  	@GET
- // 	@Produces(MediaType.APPLICATION_JSON)
  	@Path("/orders")
     @Produces(MediaType.TEXT_PLAIN)
     public String post1() {
         return "Hello from resources";
     }
- // 	public Response getOrder(@PathParam("id") String id) throws Exception {
-    //      // Handle SSL issue
-    //      fixSSL();
-    //
- // 		try {
- // 			WorkOrder dbOrder = getDB().find(WorkOrder.class, id);
- // 			return Response.ok(dbOrder).build();
- // 		} catch(NoDocumentException e){
- // 			return Response.status(404).build();
- // 		}
- // 	}
 
 	// POST a work order
 	@POST
@@ -206,8 +203,7 @@ public class CloudantUtilitiesResource {
 			WorkOrder order = getDB().find(WorkOrder.class, id);
 			getDB().remove(order);
 			return Response.ok().build();
-		}
-		catch(NoDocumentException e){
+		} catch(NoDocumentException e){
 			return Response.status(404).build();
 		}
 	}
@@ -218,16 +214,16 @@ public class CloudantUtilitiesResource {
 	 *
 	 ***********************************************/
 
-    // GET all users
+    // Basic GET for base path
   	@GET
-	// @Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
   	@Path("/users")
     @Produces(MediaType.TEXT_PLAIN)
     public String post2() {
         return "Hello from resources";
     }
 
-    // GET a specific work order
+    // GET a specific user's work orders
  	@GET
  	@Produces(MediaType.APPLICATION_JSON)
  	@Path("/users/{name}")
@@ -236,7 +232,7 @@ public class CloudantUtilitiesResource {
         fixSSL();
 
  		try {
-            List<WorkOrder> foo = getDB()
+            List<WorkOrder> order = getDB()
                 .getViewRequestBuilder("userDoc", "userIndex")
                 .newRequest(Key.Type.STRING, WorkOrder.class)
                 .includeDocs(true)
@@ -245,7 +241,7 @@ public class CloudantUtilitiesResource {
                 .getResponse()
                 .getDocsAs(WorkOrder.class);
 
-            return Response.ok(foo).build();
+            return Response.ok(order).build();
 
         } catch(NoDocumentException e){
  			return Response.status(404).build();
@@ -259,14 +255,5 @@ public class CloudantUtilitiesResource {
 //		List<User> entries = getDB().view("_all_docs").includeDocs(true).query(User.class);
 //		return Response.ok(entries).build();
 //	}
-
-    public void fixSSL() {
-        // Initializes this context with all-trusting host verifier.
-        try {
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (Exception e) {;}
-    }
 
 }
