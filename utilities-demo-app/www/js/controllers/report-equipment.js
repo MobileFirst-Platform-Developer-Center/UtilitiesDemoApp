@@ -108,7 +108,8 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
       var i, path, len;
       for (i = 0, len = mediaFiles.length; i < len; i += 1) {
           path = mediaFiles[i].fullPath;
-          // do something interesting with the file
+          console.log("voice file here: " + path)
+
       }
   };
 
