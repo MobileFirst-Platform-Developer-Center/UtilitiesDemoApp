@@ -1,4 +1,4 @@
-app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicLoading, $ionicHistory, WorkItems) {
+app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicLoading, $ionicHistory, $ionicPopup, WorkItems) {
 	$ionicHistory.clearHistory();
 	$ionicNavBarDelegate.showBackButton(false);
 	$scope.curItem = null;
@@ -29,29 +29,40 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
         // Clear old items and GET new ones
         WorkItems.clear();
 
-        var req = new WLResourceRequest('adapters/CloudantUtilities/users/George Costanza', WLResourceRequest.GET);
+        var req = new WLResourceRequest('adapters/CloudantUtilities/users/George Costanza', WLResourceRequest.GET, 15000);
 
-        req.send().then(function(response){
+        req.send().then(function(response) {
         	for (i = 0; i < response.responseJSON.length; i++) {
         		var item = response.responseJSON[i];
-               // Keep just finished item out of list (might return before cloudant is updated)
-               if (WorkItems.curItem._id != item._id) {
-               	WorkItems.addItem(item);
-               }
-             }
+				// Keep just finished item out of list (might return before cloudant is updated)
+				if (WorkItems.curItem._id != item._id) {
+					WorkItems.addItem(item);
+				}
+			}
 
-             $scope.items = WorkItems.items;
-             $scope.$apply();
+			$scope.items = WorkItems.items;
+			$scope.$apply();
 
-             if (WorkItems.curItem._id) {
-             	$scope.curItem = WorkItems.curItem;
-             	$scope.$apply();
-             }
+			if (WorkItems.curItem._id) {
+				$scope.curItem = WorkItems.curItem;
+				$scope.$apply();
+			}
 
-             $scope.hide($ionicLoading);
-             return response.responseJSON;
-           });
-      }
+			$scope.hide($ionicLoading);
+			return response.responseJSON;
+		}, function(error) {	// Handle timeout
+			$scope.hide($ionicLoading);
+
+			// Alert the user it timed out
+			$ionicPopup.alert({
+				title: 'Request failed',
+				template: 'The work order request has timed out. Check your connection and try again.'
+			});
+
+			return;
+		});
+
+	}
 
     // Select the work item to report
     $scope.workItem = function(item) {
@@ -60,4 +71,4 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
     }
 
     $scope.loadItems();
-  })
+})
