@@ -12,7 +12,8 @@
 // 	}
 // });
 
-app.controller('LoginCtrl', function ($scope, $state, Auth) {
+app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkItems) {
+  $ionicHistory.clearHistory();
   var authInProgress = false;
 
   // TODO: only for testing. Remove before release
@@ -20,20 +21,16 @@ app.controller('LoginCtrl', function ($scope, $state, Auth) {
   $scope.password = '1234';
 
   $scope.login = function () {
+    console.log("login function entered");
     if (!authInProgress) {
       Auth.login($scope, this.username.toLowerCase(), this.password.toLowerCase());
       authInProgress = true;
     }
   };
-  $scope.doDemoLogin = function () {
-    if (!authInProgress) {
-      Auth.login($scope, "demo", "demo");
-      authInProgress = true;
-    }
-  };
+
   $scope.$on('login-success', function () {
     authInProgress = false;
-    $state.go('app.search');
+    $state.go('workItems');
   });
 
   $scope.$on('login-error', function (event, error) {
