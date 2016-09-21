@@ -1,17 +1,3 @@
-// app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
-// 	$ionicHistory.clearHistory();
-// 	$scope.login = function () {
-		
-// 		// TODO: Setup login credentials
-
-
-
-
-
-// 		$state.go('workItems');
-// 	}
-// });
-
 app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkItems) {
   $ionicHistory.clearHistory();
   var authInProgress = false;
@@ -29,7 +15,7 @@ app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkI
   };
 
   $scope.$on('login-success', function () {
-    authInProgress = false;
+    // authInProgress = false;
     $state.go('workItems');
   });
 
