@@ -15,7 +15,7 @@ app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkI
   };
 
   $scope.$on('login-success', function () {
-    // authInProgress = false;
+    authInProgress = false;
     $state.go('workItems');
   });
 
