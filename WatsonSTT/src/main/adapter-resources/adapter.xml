@@ -23,7 +23,7 @@
 		</connectionPolicy>
 	</connectivity>
 
-	<procedure name="getFeed"/>
+	<procedure name="sendTextToWatson" secured="false"/>
 	<procedure name="unprotected" secured="false"/>
 
   <!-- custom properties for Watson authentication so that we do not have
@@ -35,6 +35,5 @@
 		Watson Password from Bluemix" defaultValue="2usOI11kdIq8">
 	<property name="WatsonUser" displayName="Watson username" description="Watson
 		username from Bluemix" defaultValue="a9aac473-c83f-42f9-b6e2-2588e04d1c57">
-
 
 </mfp:adapter>
