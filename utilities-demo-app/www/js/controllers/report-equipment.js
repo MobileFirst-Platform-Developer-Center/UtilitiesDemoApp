@@ -82,28 +82,37 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
         $state.go('workItems');
     }
 
-    $scope.takePicture = function () {
-	    //noinspection JSUnresolvedVariable
-	    var isEmulator = device.model.indexOf("x86") > -1;
+    $scope.recordVoice = function () {
 
-	    var cameraOptions = {
-	    	quality: 50,
-	    	destinationType: Camera.DestinationType.DATA_URL,
-	    	encodingType: Camera.EncodingType.PNG,
-	    	targetWidth: 300,
-	    	targetHeight: 170,
-	    	sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
-	    };
-
-	    navigator.camera.getPicture(successImage, cameraError, cameraOptions);
+      navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1});
 	};
 
-	function successImage(imgData) {
-		$scope.img = 'data:image/jpeg;base64,' + imgData;
-		$scope.$apply();
-	}
+  // capture callback, from Cordova documentation
+  var captureSuccess = function(mediaFiles) {
+      var i, path, len;
+      for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+          path = mediaFiles[i].fullPath;
+          console.log("voice file here: " + path);
+      }
 
-	function cameraError() {
-		alert('Error taking the picture.');
-	}
+      // call our MFP Adapter with the voice file
+      var req = new WLResourceRequest('WatsonSTT/', WLResourceRequest.POST, 15000);
+      req.setHeader('Content-type', 'application/json');
+
+      console.log("making request:" + JSON.stringify(req));
+
+      // send it
+      req.send(path).then(function(response){
+        console.log("We have the watson data");
+        console.log(JSON.stringify(response));
+      });
+
+};
+
+  // capture error callback, from Cordova documentation
+  var captureError = function(error) {
+      navigator.notification.alert('Could not record audio!', null, 'Recording Error');
+      console.log('Error code: ' + error.code);
+  };
+
 });

@@ -31,8 +31,9 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 
         var req = new WLResourceRequest('adapters/CloudantUtilities/users', WLResourceRequest.POST, 15000);
 		req.setHeader('Content-type', 'application/json');
-
-		var name = 'George Costanza';
+    var name = 'George Costanza';
+    console.log("making request to: " + JSON.stringify(req));
+    
 
         req.send(name).then(function(response) {
         	for (i = 0; i < response.responseJSON.length; i++) {
