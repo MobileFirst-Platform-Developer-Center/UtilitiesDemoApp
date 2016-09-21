@@ -84,24 +84,8 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 
     $scope.recordVoice = function () {
 	    //noinspection JSUnresolvedVariable
-      /*
-	    var isEmulator = device.model.indexOf("x86") > -1;
-
-	    var cameraOptions = {
-	    	quality: 50,
-	    	destinationType: Camera.DestinationType.DATA_URL,
-	    	encodingType: Camera.EncodingType.PNG,
-	    	targetWidth: 300,
-	    	targetHeight: 170,
-	    	sourceType: isEmulator ? Camera.PictureSourceType.PHOTOLIBRARY : Camera.PictureSourceType.CAMERA
-	    };
-
-	    navigator.camera.getPicture(successImage, cameraError, cameraOptions);
-      */
-
       navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1});
 	};
-
 
   // capture callback, from Cordova documentation
   var captureSuccess = function(mediaFiles) {
@@ -109,7 +93,7 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
       for (i = 0, len = mediaFiles.length; i < len; i += 1) {
           path = mediaFiles[i].fullPath;
           console.log("voice file here: " + path)
-
+          // call our MFP Adapter with the voice file
       }
   };
 
