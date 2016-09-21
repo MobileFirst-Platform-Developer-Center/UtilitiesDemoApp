@@ -8,7 +8,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
 
 
 
-		//$state.go('workItems');
-    $state.go('reportEquipment');
+		$state.go('workItems');
+    //$state.go('reportEquipment');
 	}
 });

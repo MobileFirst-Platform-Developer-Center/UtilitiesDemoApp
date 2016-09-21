@@ -1,0 +1,82 @@
+<ion-view view-title="Work Item" name="item" align-title="center">
+  <ion-content class="padding">
+    <div class = "row">
+      <p ng-controller="ReportEquipmentCtrl">{{name}}</p>
+    </div>
+
+    <!-- TODO: Make dynamic -->
+    <div class = "row">
+      <span class="date">{{date | date:"MM/dd/yyyy 'at' h:mma"}}</span><br />
+    </div>
+
+    <!-- TODO: Make dynamic -->
+    <div class = "row">
+      <span class="street">{{item.location}}</span><br />
+    </div>
+
+    <ion-list>
+
+      <!-- Watson Image -->
+      <ion-item class="item-icon-right" ng-click="recordVoice()">
+        Watson Voice Recognition
+        <i class="icon ion-microphone-off"></i>
+      </ion-item>
+
+      <!-- Model -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Model</span>
+        <input class="info-input" type="text" value="" placeholder="Model" ng-model="details.model">
+      </ion-item>
+
+      <!-- Serial -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Serial</span>
+        <input class="info-input" type="text" value="" placeholder="Serial" ng-model="details.serial">
+      </ion-item>
+
+      <!-- Manufacturer -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Manufacturer</span>
+        <input class="item-input" type="text" value="" placeholder="Manufacturer" ng-model="details.manufacturer">
+      </ion-item>
+
+      <!-- Manufacture Year -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Manufacture Year</span>
+        <input class="item-input" type="number" value="" placeholder="Manufacture Year" ng-model="details.manufactureYear">
+      </ion-item>
+
+      <!-- Last Inspection Date -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Last Inspection Date</span>
+        <input class="item-input" type="text" value="" placeholder="Last Inspection Date" ng-model="details.lastInspected">
+      </ion-item>
+
+      <!-- Insepction Status -->
+      <ion-item class="item-input item-select">
+        <div class="input-label">
+          Inspection Status
+        </div>
+        <select ng-model="fail" ng-change="showReason(fail)">
+            <option ng-selected="selected">Pass</option>
+            <option>Fail</option>
+        </select>
+      </ion-item>
+
+      <!-- Fail Reason -->
+      <ion-item class="item-input item-floating-label" ng-show="!details.inspectionPass">
+        <span class="input-label">Failure Reason</span>
+        <textarea placeholder="enter failure reason here..." ng-model="details.failReason" ng-minlength="1"></textarea>
+      </ion-item>
+
+      <!-- Notes -->
+      <ion-item class="item-input item-floating-label">
+        <span class="input-label">Comments</span>
+        <textarea placeholder="enter notes here..."></textarea>
+      </ion-item>
+
+    </ion-list>
+    <!-- Submit button -->
+    <button class="button button-block button-calm" ng-disabled="submitDisabled()" ng-click="submit(details)">Submit</button>
+  </ion-content>
+</ion-view>

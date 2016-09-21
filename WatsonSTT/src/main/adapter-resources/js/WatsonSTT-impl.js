@@ -14,7 +14,7 @@
 function sendTextToWatson(data) {
 	var input = {
 	    method : 'post',
-	    returnedContentType : 'xml',
+	    returnedContentType : 'json',
 	    path : getPath()
 	};
 

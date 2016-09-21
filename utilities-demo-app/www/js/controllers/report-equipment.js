@@ -94,12 +94,20 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
           path = mediaFiles[i].fullPath;
           console.log("voice file here: " + path)
           // call our MFP Adapter with the voice file
+          var input = {
+              method : 'post',
+              returnedContentType : 'json',
+              path : "rss.xml"
+          };
+          
+          return WL.Server.invokeHttp(input);
       }
   };
 
   // capture error callback, from Cordova documentation
   var captureError = function(error) {
-      navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
+      navigator.notification.alert('Could not record audio! Error #' + error.code, null, 'Recording Error');
+      console.log('Error code: ' + error.code);
   };
 
 });
