@@ -68,10 +68,13 @@ app.factory('Auth', function ($rootScope) {
       return WLAuthorizationManager.logout(securityCheckName);
     },
     login: function ($scope, username, password) {
-      _$scope = $scope;
 
       // register the challenge handler for `UserLogin`
       bindChallengeHandler();
+      
+      _$scope = $scope;
+
+
 
       if (!username || !password) {
         $scope.$emit('login-error', {
