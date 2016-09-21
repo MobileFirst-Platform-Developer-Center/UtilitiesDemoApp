@@ -216,37 +216,61 @@ public class CloudantUtilitiesResource {
 
     // Basic GET for base path
   	@GET
-	@Produces(MediaType.APPLICATION_JSON)
   	@Path("/users")
     @Produces(MediaType.TEXT_PLAIN)
     public String post2() {
         return "Hello from resources";
     }
 
-    // GET a specific user's work orders
- 	@GET
- 	@Produces(MediaType.APPLICATION_JSON)
- 	@Path("/users/{name}")
- 	public Response getOrdersByName(@PathParam("name") String name) throws Exception {
-        // Handle SSL issue
-        fixSSL();
+    // // GET a specific user's work orders
+ // 	@GET
+ // 	@Produces(MediaType.APPLICATION_JSON)
+ // 	@Path("/users/{name}")
+ // 	public Response getOrdersByName(@PathParam("name") String name) throws Exception {
+    //     // Handle SSL issue
+    //     fixSSL();
+	//
+ // 		try {
+    //         List<WorkOrder> order = getDB()
+    //             .getViewRequestBuilder("userDoc", "userIndex")
+    //             .newRequest(Key.Type.STRING, WorkOrder.class)
+    //             .includeDocs(true)
+    //             .keys(name)
+    //             .build()
+    //             .getResponse()
+    //             .getDocsAs(WorkOrder.class);
+	//
+    //         return Response.ok(order).build();
+	//
+    //     } catch(NoDocumentException e){
+ // 			return Response.status(404).build();
+ // 		}
+ // 	}
 
- 		try {
-            List<WorkOrder> order = getDB()
-                .getViewRequestBuilder("userDoc", "userIndex")
-                .newRequest(Key.Type.STRING, WorkOrder.class)
-                .includeDocs(true)
-                .keys(name)
-                .build()
-                .getResponse()
-                .getDocsAs(WorkOrder.class);
+	// GET a specific user's work orders
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/users")
+	public Response getOrdersByName(String name) throws Exception {
+		// Handle SSL issue
+		fixSSL();
 
-            return Response.ok(order).build();
+		try {
+			List<WorkOrder> order = getDB()
+				.getViewRequestBuilder("userDoc", "userIndex")
+				.newRequest(Key.Type.STRING, WorkOrder.class)
+				.includeDocs(true)
+				.keys(name)
+				.build()
+				.getResponse()
+				.getDocsAs(WorkOrder.class);
 
-        } catch(NoDocumentException e){
- 			return Response.status(404).build();
- 		}
- 	}
+			return Response.ok(order).build();
+
+		} catch(NoDocumentException e){
+			return Response.status(404).build();
+		}
+	}
 
 //	// GET all docs
 //	@GET

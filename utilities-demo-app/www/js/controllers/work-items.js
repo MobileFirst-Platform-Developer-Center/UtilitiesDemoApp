@@ -29,9 +29,12 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
         // Clear old items and GET new ones
         WorkItems.clear();
 
-        var req = new WLResourceRequest('adapters/CloudantUtilities/users/George Costanza', WLResourceRequest.GET, 15000);
+        var req = new WLResourceRequest('adapters/CloudantUtilities/users', WLResourceRequest.POST, 15000);
+		req.setHeader('Content-type', 'application/json');
 
-        req.send().then(function(response) {
+		var name = 'George Costanza';
+
+        req.send(name).then(function(response) {
         	for (i = 0; i < response.responseJSON.length; i++) {
         		var item = response.responseJSON[i];
 				// Keep just finished item out of list (might return before cloudant is updated)
