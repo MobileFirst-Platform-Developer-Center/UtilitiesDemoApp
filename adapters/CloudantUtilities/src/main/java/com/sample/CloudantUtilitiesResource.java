@@ -243,12 +243,4 @@ public class CloudantUtilitiesResource {
 		}
 	}
 
-//	// GET all docs
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response getAllEntries() throws Exception {
-//		List<User> entries = getDB().view("_all_docs").includeDocs(true).query(User.class);
-//		return Response.ok(entries).build();
-//	}
-
 }
