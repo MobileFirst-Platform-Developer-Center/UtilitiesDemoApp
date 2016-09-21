@@ -83,7 +83,7 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
     }
 
     $scope.recordVoice = function () {
-	    //noinspection JSUnresolvedVariable
+
       navigator.device.capture.captureAudio(captureSuccess, captureError, {limit:1});
 	};
 
