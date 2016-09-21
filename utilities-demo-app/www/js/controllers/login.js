@@ -1,7 +1,7 @@
 app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
 	$ionicHistory.clearHistory();
 	$scope.login = function () {
-		
+
 		// TODO: Setup login credentials
 
 
@@ -9,5 +9,6 @@ app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
 
 
 		$state.go('workItems');
+    //$state.go('reportEquipment');
 	}
 });

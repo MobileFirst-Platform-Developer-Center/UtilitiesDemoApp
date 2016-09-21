@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Licensed Materials - Property of IBM
+	5725-I43 (C) Copyright IBM Corp. 2011, 2016. All Rights Reserved.
+	US Government Users Restricted Rights - Use, duplication or
+	disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+-->
+<mfp:adapter name="WatsonSTT"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xmlns:mfp="http://www.ibm.com/mfp/integration"
+			 xmlns:http="http://www.ibm.com/mfp/integration/http">
+
+	<displayName>WatsonSTT</displayName>
+	<description>WatsonSTT</description>
+	<connectivity>
+		<connectionPolicy xsi:type="http:HTTPConnectionPolicyType">
+			<protocol>https</protocol>
+			<domain>stream.watsonplatform.net</domain>
+			<port>443</port>
+			<connectionTimeoutInMilliseconds>30000</connectionTimeoutInMilliseconds>
+			<socketTimeoutInMilliseconds>30000</socketTimeoutInMilliseconds>
+			<maxConcurrentConnectionsPerNode>50</maxConcurrentConnectionsPerNode>
+		</connectionPolicy>
+	</connectivity>
+
+<<<<<<< HEAD
+	<procedure name="sendTextToWatson" secured="false"/>
+=======
+	<procedure name="getFeed"/>
+>>>>>>> 56b5dcd56e8fef93d9c3316fb5649d9bce8e93dd
+	<procedure name="unprotected" secured="false"/>
+
+  <!-- custom properties for Watson authentication so that we do not have
+	to store these in github. In Production you would not have a defaultValue
+	but instead can set these values from the MFP Console. This will be documented
+	in our set up docs -->
+
+  <property name="WatsonPass" displayName="Watson password" description="Get
+<<<<<<< HEAD
+		Watson Password from Bluemix" defaultValue="2usOI11kdIq8" />
+	<property name="WatsonUser" displayName="Watson username" description="Watson
+		username from Bluemix" defaultValue="a9aac473-c83f-42f9-b6e2-2588e04d1c57" />
+=======
+		Watson Password from Bluemix" defaultValue="2usOI11kdIq8">
+	<property name="WatsonUser" displayName="Watson username" description="Watson
+		username from Bluemix" defaultValue="a9aac473-c83f-42f9-b6e2-2588e04d1c57">
+
+>>>>>>> 56b5dcd56e8fef93d9c3316fb5649d9bce8e93dd
+
+</mfp:adapter>
