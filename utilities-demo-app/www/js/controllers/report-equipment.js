@@ -92,21 +92,26 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
       var i, path, len;
       for (i = 0, len = mediaFiles.length; i < len; i += 1) {
           path = mediaFiles[i].fullPath;
-          console.log("voice file here: " + path)
-          // call our MFP Adapter with the voice file
-          var input = {
-              method : 'post',
-              returnedContentType : 'json',
-              path : "rss.xml"
-          };
-          
-          return WL.Server.invokeHttp(input);
+          console.log("voice file here: " + path);
       }
-  };
+
+      // call our MFP Adapter with the voice file
+      var req = new WLResourceRequest('WatsonSTT/', WLResourceRequest.POST, 15000);
+      req.setHeader('Content-type', 'application/json');
+
+      console.log("making request:" + JSON.stringify(req));
+
+      // send it
+      req.send(path).then(function(response){
+        console.log("We have the watson data");
+        console.log(JSON.stringify(response));
+      });
+
+};
 
   // capture error callback, from Cordova documentation
   var captureError = function(error) {
-      navigator.notification.alert('Could not record audio! Error #' + error.code, null, 'Recording Error');
+      navigator.notification.alert('Could not record audio!', null, 'Recording Error');
       console.log('Error code: ' + error.code);
   };
 

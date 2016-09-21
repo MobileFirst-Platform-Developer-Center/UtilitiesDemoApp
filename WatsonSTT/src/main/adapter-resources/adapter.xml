@@ -32,8 +32,8 @@
 	in our set up docs -->
 
   <property name="WatsonPass" displayName="Watson password" description="Get
-		Watson Password from Bluemix" defaultValue="2usOI11kdIq8">
+		Watson Password from Bluemix" defaultValue="2usOI11kdIq8" />
 	<property name="WatsonUser" displayName="Watson username" description="Watson
-		username from Bluemix" defaultValue="a9aac473-c83f-42f9-b6e2-2588e04d1c57">
+		username from Bluemix" defaultValue="a9aac473-c83f-42f9-b6e2-2588e04d1c57" />
 
 </mfp:adapter>
