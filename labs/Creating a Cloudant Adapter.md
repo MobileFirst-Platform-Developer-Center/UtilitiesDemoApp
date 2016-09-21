@@ -497,36 +497,36 @@ public String post2() {
 
 #### GET a user
 
-To GET all the works orders for a user we'll use the user index from before. The Cloudant library provides an easy way to make the request, so we'll use that.
+To get all the works orders for a user we'll actually run into an issue if we use GET. Since users have a space in their name passing it in as a url parameter might create problems. Instead, we'll use POST, and we'll need the user index from before. The Cloudant library provides an easy way to make the request, so we'll use that.
 
 ```java
 // GET a specific user's work orders
-@GET
+@POST
 @Produces(MediaType.APPLICATION_JSON)
-@Path("/users/{name}")
-public Response getOrdersByName(@PathParam("name") String name) throws Exception {
-    // Handle SSL issue
-    fixSSL();
+@Path("/users")
+public Response getOrdersByName(String name) throws Exception {
+	// Handle SSL issue
+	fixSSL();
 
 	try {
-        List<WorkOrder> order = getDB()
-            .getViewRequestBuilder("userDoc", "userIndex")
-            .newRequest(Key.Type.STRING, WorkOrder.class)
-            .includeDocs(true)
-            .keys(name)
-            .build()
-            .getResponse()
-            .getDocsAs(WorkOrder.class);
+		List<WorkOrder> order = getDB()
+			.getViewRequestBuilder("userDoc", "userIndex")
+			.newRequest(Key.Type.STRING, WorkOrder.class)
+			.includeDocs(true)
+			.keys(name)
+			.build()
+			.getResponse()
+			.getDocsAs(WorkOrder.class);
 
-        return Response.ok(order).build();
+		return Response.ok(order).build();
 
-    } catch(NoDocumentException e){
+	} catch(NoDocumentException e){
 		return Response.status(404).build();
 	}
 }
 ```
 
-Since we don't already have the endpoints to POST, PUT, and DELETE work orders, and we only have one type of document in Cloudant, we don't need to write them again.
+Since we don't already have the endpoints to GET, PUT, and DELETE work orders, and we only have one type of document in Cloudant, we don't need to write them again.
 
 ## Testing
 

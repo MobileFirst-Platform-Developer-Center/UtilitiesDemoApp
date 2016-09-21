@@ -37,7 +37,6 @@ import java.security.SecureRandom;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 import com.ibm.mfp.adapter.api.AdaptersAPI;
-// import com.ibm.mfp.adapter.api.ConfigurationAPI;
 import com.worklight.core.auth.OAuthSecurity;
 import com.cloudant.client.org.lightcouch.NoDocumentException;
 
@@ -54,9 +53,6 @@ public class CloudantUtilitiesResource {
 
 	@Context
 	AdaptersAPI adaptersAPI;
-
-    // @Context
-	// ConfigurationAPI configurationAPI;
 
 	private Database getDB() throws Exception {
 		CloudantUtilitiesApplication app = adaptersAPI.getJaxRsApplication(CloudantUtilitiesApplication.class);
@@ -222,31 +218,6 @@ public class CloudantUtilitiesResource {
         return "Hello from resources";
     }
 
-    // // GET a specific user's work orders
- // 	@GET
- // 	@Produces(MediaType.APPLICATION_JSON)
- // 	@Path("/users/{name}")
- // 	public Response getOrdersByName(@PathParam("name") String name) throws Exception {
-    //     // Handle SSL issue
-    //     fixSSL();
-	//
- // 		try {
-    //         List<WorkOrder> order = getDB()
-    //             .getViewRequestBuilder("userDoc", "userIndex")
-    //             .newRequest(Key.Type.STRING, WorkOrder.class)
-    //             .includeDocs(true)
-    //             .keys(name)
-    //             .build()
-    //             .getResponse()
-    //             .getDocsAs(WorkOrder.class);
-	//
-    //         return Response.ok(order).build();
-	//
-    //     } catch(NoDocumentException e){
- // 			return Response.status(404).build();
- // 		}
- // 	}
-
 	// GET a specific user's work orders
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -271,13 +242,5 @@ public class CloudantUtilitiesResource {
 			return Response.status(404).build();
 		}
 	}
-
-//	// GET all docs
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response getAllEntries() throws Exception {
-//		List<User> entries = getDB().view("_all_docs").includeDocs(true).query(User.class);
-//		return Response.ok(entries).build();
-//	}
 
 }
