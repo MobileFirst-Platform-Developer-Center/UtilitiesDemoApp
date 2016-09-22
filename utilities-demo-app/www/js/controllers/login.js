@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkItems) {
   $ionicHistory.clearHistory();
   var authInProgress = false;
-=======
-app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
-	$ionicHistory.clearHistory();
-	$scope.login = function () {
-
-		// TODO: Setup login credentials
->>>>>>> origin/master
 
   // TODO: only for testing. Remove before release
   $scope.username = '1234';
@@ -28,14 +20,7 @@ app.controller('LoginCtrl', function($scope, $state, $ionicHistory, WorkItems) {
   });
 
   $scope.$on('login-error', function (event, error) {
-    alert(error.message);
-
-<<<<<<< HEAD
+    alert(error.message)
     authInProgress = false;
   });
-=======
-		$state.go('workItems');
-    //$state.go('reportEquipment');
-	}
->>>>>>> origin/master
 });
