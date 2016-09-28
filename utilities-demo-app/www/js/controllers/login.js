@@ -5,7 +5,7 @@ app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkI
 	// TODO: only for testing. Remove before release
 	$scope.username = '1234';
 	$scope.password = '1234';
-	
+
 	$scope.login = function () {
 		console.log("login function entered");
 		if (!authInProgress) {
@@ -13,12 +13,12 @@ app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkI
 			authInProgress = true;
 		}
 	};
-	
+
 	$scope.$on('login-success', function () {
 		authInProgress = false;
 		$state.go('workItems');
 	});
-	
+
 	$scope.$on('login-error', function (event, error) {
 		alert(error.message)
 		authInProgress = false;

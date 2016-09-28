@@ -97,7 +97,7 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 			console.log(JSON.stringify(response));
 		});
 	};
-	
+
 	// capture error callback, from Cordova documentation
 	var captureError = function(error) {
 		navigator.notification.alert('Could not record audio!', null, 'Recording Error');
