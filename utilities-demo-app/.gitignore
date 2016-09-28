@@ -4,7 +4,11 @@
 node_modules/
 platforms/
 plugins/
-resources/
+resources/*
+
+!resources/icon.png
+!resources/splash.png
+
 
 
 .class
