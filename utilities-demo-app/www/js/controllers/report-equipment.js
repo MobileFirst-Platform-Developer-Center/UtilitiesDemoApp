@@ -17,6 +17,20 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 		'inspectionPass': true
 	};
 
+	buildAddress = function(obj) {
+		var address = '';
+		if (obj.number != null) {
+			address = address + obj.number + ' ';
+		}
+		if (obj.street != null) {
+			address = address + obj.street + ' ';
+		}
+		address = address + obj.city + ', ' + obj.state + ' ' + obj.zip;
+		return address;
+	}
+
+	$scope.address = buildAddress(WorkItems.curItem.location);
+
 	// Var for original back function
 	var oldSoftBack = $rootScope.$ionicGoBack;
 

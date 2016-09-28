@@ -19,10 +19,11 @@ package com.sample;
 import java.util.Date;
 
 public class WorkOrder {
-    private String addedBy, assignedTo, location, _id, _rev;
+    private String addedBy, assignedTo, _id, _rev;
     private Date created;
     private boolean inspectionFinished;
     private InspectionDetails details;
+    private Location location;
 
     /**
      * Strings
@@ -39,13 +40,6 @@ public class WorkOrder {
     }
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     /**
@@ -79,6 +73,16 @@ public class WorkOrder {
     }
 
     /**
+     * Location
+     */
+    public Location getLocation() {
+        return location;
+    }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    /**
      * Cloudant IDs
      */
     public String get_id() {
@@ -99,7 +103,7 @@ public class WorkOrder {
      * Methods
      */
     public boolean isValid() {
-		if (nonNullAndEmpty(addedBy)) {
+		if (nonNullAndEmpty(addedBy) && location.isValid()) {
             if ((inspectionFinished && details.isValid()) || !inspectionFinished) {
                 return true;
             }

@@ -171,9 +171,9 @@ public class CloudantUtilitiesResource {
             // Update all the dbOrder properties
 			dbOrder.setAddedBy(order.getAddedBy());
 			dbOrder.setAssignedTo(order.getAssignedTo());
-			dbOrder.setLocation(order.getLocation());
             dbOrder.setInspectionFinished(order.getInspectionFinished());
             dbOrder.setDetails(order.getDetails());
+			dbOrder.setLocation(order.getLocation());
 
 			String err = getDB().update(dbOrder).getError();
 
