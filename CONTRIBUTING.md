@@ -8,7 +8,7 @@ You should ensure you are always up to date with the master branch.  This is don
 
 We follow the git-flow process outline [here](http://jeffkreeftmeijer.com/2010/why-arent-you-using-git-flow/)
 
- 1. Make sure you are up to date with: `get fetch origin/master && git merge origin/master`
+ 1. Make sure you are up to date with: `get fetch origin master && git merge origin/master`
  1. Create a new branch for each with the prefix [feature/ hotfix/]: `git checkout -b {prefix/name}`
  1. werk werk werk werk werk
  1. Try to make commits only on fully functioning code, and commit often. `git commit -m "message"`
