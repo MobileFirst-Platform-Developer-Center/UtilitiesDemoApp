@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import java.util.Random;
+// import java.lang.Math.toIntExact;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -43,10 +44,17 @@ import com.cloudant.client.org.lightcouch.NoDocumentException;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.views.Key;
 
+import okhttp3.Credentials;
+// import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+// import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 @Path("/")
 @OAuthSecurity(enabled = false)
-public class CloudantUtilitiesResource {
+public class UtilitiesResource {
 	/*
 	 * For more info on JAX-RS see https://jax-rs-spec.java.net/nonav/2.0-rev-a/apidocs/index.html
 	 */
@@ -54,13 +62,24 @@ public class CloudantUtilitiesResource {
 	@Context
 	AdaptersAPI adaptersAPI;
 
+    // Access Cloudant DB
 	private Database getDB() throws Exception {
-		CloudantUtilitiesApplication app = adaptersAPI.getJaxRsApplication(CloudantUtilitiesApplication.class);
+		UtilitiesApplication app = adaptersAPI.getJaxRsApplication(UtilitiesApplication.class);
 		if (app.db != null) {
 			return app.db;
 		}
 		throw new Exception("Unable to connect to Cloudant DB, check the configuration.");
 	}
+
+    // Access weather service
+    private String getCredentials() {
+        UtilitiesApplication app = adaptersAPI.getJaxRsApplication(UtilitiesApplication.class);
+        if (!app.weatherUsername.isEmpty() && !app.weatherPassword.isEmpty()) {
+            return Credentials.basic(app.weatherUsername, app.weatherPassword);
+        } else {
+            return "";
+        }
+    }
 
 	// Override SSL Trust manager without certificate chains validation
 	TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager(){
@@ -241,6 +260,154 @@ public class CloudantUtilitiesResource {
 		} catch(NoDocumentException e){
 			return Response.status(404).build();
 		}
+	}
+
+    /************************************************
+	 *
+	 * 				    WEATHER
+	 *
+	 ***********************************************/
+
+    // POST a zip code array to update the weather
+ 	@POST
+ 	@Produces(MediaType.APPLICATION_JSON)
+ 	@Path("/weather")
+ 	public Response getWeatherAlerts(String[] zipCodes) throws Exception {
+        JSONArray json = new JSONArray();
+
+        // Handle SSL issue
+        fixSSL();
+
+        for (int i = 0; i < zipCodes.length; i++) {
+            try {
+    			ZipCode dbZip = getDB().find(ZipCode.class, "zip" + zipCodes[i]);
+
+                JSONArray coords = new JSONArray();
+                coords.add(dbZip.getLatitude());
+                coords.add(dbZip.getLongitude());
+
+                JSONObject obj = new JSONObject();
+                obj.put(zipCodes[i], coords);
+
+                json.add(obj);
+    		} catch(NoDocumentException e){
+                // Get the coordintes from the weather service
+                JSONObject latLong = geocode(zipCodes[i]);
+
+                System.out.println(latLong);
+
+                /*
+                 *  TODO: handle no internet/errors
+                 */
+                // Add the zip code to Cloudant
+                ZipCode newZip = new ZipCode();
+                newZip.setZip(zipCodes[i]);
+                newZip.setLatitude(latLong.get("latitude").toString());
+                newZip.setLongitude(latLong.get("longitude").toString());
+
+                Response res = addZipCode(newZip);
+
+                // Check for errors when adding the zip
+                if (res.getStatus() == 201) {
+                    JSONArray coords = new JSONArray();
+                    coords.add(newZip.getLatitude());
+                    coords.add(newZip.getLongitude());
+
+                    JSONObject obj = new JSONObject();
+                    obj.put(zipCodes[i], null);
+                    json.add(obj);
+                } else {
+                    // Assume zip is invalid
+                    JSONObject obj = new JSONObject();
+                    obj.put(zipCodes[i], null);
+                    json.add(obj);
+                }
+
+
+    		}
+        }
+
+        return Response.ok(json).build();
+
+ 	}
+
+    // POST a new zip code and coordinates to Cloudant
+    public Response addZipCode(ZipCode zipCode) throws Exception {
+        System.out.println("adding zip " + zipCode.getZip());
+		if(zipCode!=null && zipCode.isValid()) {
+            // Handle SSL issue
+            fixSSL();
+
+            // Set the id
+			zipCode.set_id("zip" + zipCode.getZip());
+
+			// Handle Cloudant
+			String err = getDB().post(zipCode).getError();
+
+			if (err != null) {
+                System.out.println("err: " + err);
+				return Response.status(500).entity(err).build();
+			}
+			else {
+                System.out.println("201");
+				return Response.status(201).entity(zipCode).build();
+			}
+
+		}
+		else {
+            System.out.println("400");
+			return Response.status(400).entity("Invalid zip code document").build();
+		}
+	}
+
+    // GET latitude and longitude for a specific zip code
+  	public JSONObject geocode(String zip) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+            .url("https://twcservice.mybluemix.net/api/weather/v3/location/point?postalKey=" + zip + "%3AUS&language=en-US")
+            .get()
+            .addHeader("Authorization", getCredentials())
+            .build();
+
+        /*
+         *  TODO: handle no internet/errors
+         */
+        okhttp3.Response response = client.newCall(request).execute();
+        String body = response.body().string();
+        JSONObject json = JSONObject.parse(body);
+
+        JSONObject output = new JSONObject();
+        output.put("latitude", ((JSONObject)json.get("location")).get("latitude"));
+        output.put("longitude", ((JSONObject)json.get("location")).get("longitude"));
+        return output;
+  	}
+
+    // GET alerts for a specific latitude and longitude
+	public String alerts(String latitude, String longitude) throws Exception {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+            .url("https://twcservice.mybluemix.net/api/weather/v1/geocode/" + latitude + "/" + longitude + "/alerts.json?language=en-US")
+            .get()
+            .addHeader("Authorization", getCredentials())
+            .build();
+
+        /*
+         *  TODO: handle no internet/errors
+         */
+        okhttp3.Response response = client.newCall(request).execute();
+        return response.body().string();
+
+        /*
+         * One library method, might use
+         */
+        // String output = client.newCall(request).execute().body().string();
+        // JSONObject json = JSONObject.parse(output);
+        //
+        // // Java casting magic
+        // int code = Integer.parseInt(((JSONObject)json.get("metadata")).get("status_code").toString());
+        // return Response.status(code).entity(output).build();
 	}
 
 }

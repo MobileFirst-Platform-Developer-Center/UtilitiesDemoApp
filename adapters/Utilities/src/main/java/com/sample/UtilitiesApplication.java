@@ -26,21 +26,25 @@ import org.lightcouch.CouchDbException;
 import javax.ws.rs.core.Context;
 import java.util.logging.Logger;
 
-public class CloudantUtilitiesApplication extends MFPJAXRSApplication{
+public class UtilitiesApplication extends MFPJAXRSApplication{
 
-	static Logger logger = Logger.getLogger(CloudantUtilitiesApplication.class.getName());
+	static Logger logger = Logger.getLogger(UtilitiesApplication.class.getName());
 
 	@Context
 	ConfigurationAPI configurationAPI;
 
 	public Database db = null;
+    public String weatherUsername;
+    public String weatherPassword;
 
 	protected void init() throws Exception {
 		logger.info("Adapter initialized!");
 		String cloudantDBName = configurationAPI.getPropertyValue("DBName");
-		String cloudantAccount = configurationAPI.getPropertyValue("account");
-		String cloudantKey = configurationAPI.getPropertyValue("key");
-		String cloudantPassword = configurationAPI.getPropertyValue("password");
+		String cloudantAccount = configurationAPI.getPropertyValue("cloudantAccount");
+		String cloudantKey = configurationAPI.getPropertyValue("cloudantKey");
+		String cloudantPassword = configurationAPI.getPropertyValue("cloudantPassword");
+        weatherUsername = configurationAPI.getPropertyValue("weatherUsername");
+		weatherPassword = configurationAPI.getPropertyValue("weatherPassword");
 
         if (!cloudantDBName.isEmpty() && !cloudantAccount.isEmpty() && !cloudantKey.isEmpty() && !cloudantPassword.isEmpty()){
 			try {

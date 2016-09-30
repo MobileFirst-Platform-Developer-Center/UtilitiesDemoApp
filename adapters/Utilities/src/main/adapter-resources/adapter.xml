@@ -14,19 +14,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<mfp:adapter name="CloudantUtilities"
+<mfp:adapter name="Utilities"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mfp="http://www.ibm.com/mfp/integration"
 	xmlns:http="http://www.ibm.com/mfp/integration/http">
 
-	<displayName>CloudantUtilities</displayName>
-	<description>CloudantUtilities</description>
+	<displayName>Utilities</displayName>
+	<description>Utilities</description>
 
-	<JAXRSApplicationClass>com.sample.CloudantUtilitiesApplication</JAXRSApplicationClass>
+	<JAXRSApplicationClass>com.sample.UtilitiesApplication</JAXRSApplicationClass>
 
-	<property name="account" displayName="Cloudant account" defaultValue=""  />
-	<property name="key" displayName="Cloudant key" defaultValue=""  />
-	<property name="password" displayName="Cloudant password" defaultValue=""  />
+	<property name="cloudantAccount" displayName="Cloudant account" defaultValue=""/>
+	<property name="cloudantKey" displayName="Cloudant key" defaultValue=""/>
+	<property name="cloudantPassword" displayName="Cloudant password" defaultValue=""/>
 	<property name="DBName" displayName="Cloudant DB name" defaultValue=""/>
+    <property name="weatherUsername" displayName="Weather service username" defaultValue=""/>
+    <property name="weatherPassword" displayName="Weather service password" defaultValue=""/>
 
 </mfp:adapter>

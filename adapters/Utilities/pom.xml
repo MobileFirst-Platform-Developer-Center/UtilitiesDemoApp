@@ -18,10 +18,10 @@ limitations under the License.
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sample</groupId>
-	<artifactId>CloudantUtilities</artifactId>
+	<artifactId>Utilities</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>adapter</packaging>
-	<name>CloudantUtilities</name>
+	<name>Utilities</name>
 
 	<dependencies>
 		<dependency>
@@ -39,6 +39,11 @@ limitations under the License.
             <groupId>org.lightcouch</groupId>
             <artifactId>lightcouch</artifactId>
             <version>0.1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.4.1</version>
         </dependency>
 	</dependencies>
 
