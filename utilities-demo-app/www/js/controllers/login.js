@@ -3,15 +3,27 @@ app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, WorkI
 	var authInProgress = false;
 
 	// TODO: only for testing. Remove before release
-	$scope.username = '1234';
-	$scope.password = '1234';
+	// $scope.username = '1234';
+	// $scope.password = '1234';
 
 	$scope.login = function () {
 		console.log("login function entered");
-		if (!authInProgress) {
-			Auth.login($scope, this.username.toLowerCase(), this.password.toLowerCase());
-			authInProgress = true;
-		}
+
+		// Validate input
+		if (!$scope.username || !$scope.password) {
+			console.log('No username or password provided');
+		} else {
+			console.log('username and password have been provided');
+			if ($scope.username == $scope.password) {
+				// Proceed to login
+				if (!authInProgress) {
+					Auth.login($scope, $scope.username.toLowerCase(), $scope.password.toLowerCase());
+					authInProgress = true;
+				}
+			} else {
+				// Show error username / password does not match.
+			};
+		};
 	};
 
 	$scope.$on('login-success', function () {
