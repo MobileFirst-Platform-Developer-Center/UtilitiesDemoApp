@@ -1,3 +1,5 @@
+'use strict';
+
 app.factory('Auth', function ($rootScope) {
 
 	var securityCheckName = 'UserLogin',
