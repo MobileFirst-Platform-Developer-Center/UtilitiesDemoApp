@@ -5,6 +5,9 @@
 			<div class="item item-divider">To-Do</div>
 			<ion-item ng-repeat="item in items" ng-click="workItem(item)">
 				Item {{item._id}}
+        <ion-item ng-show="item.weather">
+          Weather {{item.weather}}
+        </ion-item>
 			</ion-item>
 		</ion-list>
 		</br>

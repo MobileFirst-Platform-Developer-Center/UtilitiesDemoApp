@@ -69,16 +69,21 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 		// Remove extra JSON fields
 		delete WorkItems.curItem.valid;
 		delete WorkItems.curItem.$$hashKey;
+
 		// Edit input values for adapter
 		details.inspectionPass = $scope.details.inspectionPass;
 		details.manufactureYear = parseInt(details.manufactureYear);
 		WorkItems.curItem.inspectionFinished = true;
-		// Set new values to body
 		WorkItems.curItem.details = details;
-		var req = new WLResourceRequest('adapters/CloudantUtilities/orders/' + WorkItems.curItem._id, WLResourceRequest.PUT);
+
+        // Clone the current item and remove the weather
+        var itemClone = WorkItems.curItem;
+        delete itemClone.weather;
+
+        // POST the item
+		var req = new WLResourceRequest('adapters/CloudantUtilities/orders/' + itemClone._id, WLResourceRequest.PUT);
 		req.setHeader('Content-type', 'application/json');
-		// console.log(WorkItems.curItem);
-		req.send(WorkItems.curItem).then(
+		req.send(itemClone).then(
 			function(response) {
 				return response.responseJSON;
 			},

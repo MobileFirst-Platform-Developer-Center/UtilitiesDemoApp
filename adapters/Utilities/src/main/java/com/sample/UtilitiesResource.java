@@ -16,11 +16,10 @@
 
 package com.sample;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import java.util.Random;
-// import java.lang.Math.toIntExact;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -30,7 +29,7 @@ import javax.ws.rs.core.Response;
 import javax.net.ssl.HttpsURLConnection;
 import java.security.cert.X509Certificate;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
+//import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.security.SecureRandom;
@@ -45,12 +44,10 @@ import com.cloudant.client.api.Database;
 import com.cloudant.client.api.views.Key;
 
 import okhttp3.Credentials;
-// import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
-// import okhttp3.Response;
-import okhttp3.ResponseBody;
+//import okhttp3.RequestBody;
+//import okhttp3.ResponseBody;
 
 @Path("/")
 @OAuthSecurity(enabled = false)
@@ -88,13 +85,13 @@ public class UtilitiesResource {
 			public void checkServerTrusted(X509Certificate[] certs, String authType){}
 	}};
 
-	public void fixSSL() {
+	private void fixSSL() {
         // Initializes this context with all-trusting host verifier.
         try {
             SSLContext sc = SSLContext.getInstance("SSL");
             sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (Exception e) {;}
+        } catch (Exception e) {}
     }
 
 	/************************************************
@@ -268,33 +265,44 @@ public class UtilitiesResource {
 	 *
 	 ***********************************************/
 
+    // Basic GET for base path
+   	@GET
+   	@Path("/weather")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String post3() {
+        return "Hello from resources";
+    }
+
     // POST a zip code array to update the weather
  	@POST
  	@Produces(MediaType.APPLICATION_JSON)
+    @Consumes("application/json")
  	@Path("/weather")
  	public Response getWeatherAlerts(String[] zipCodes) throws Exception {
-        JSONArray json = new JSONArray();
+        /*
+         * Output structure
+         *  - zipLevel: outer most object
+         *  - alertLevel: inner array of alerts for each zip
+         *  - detailLevel: inner most object for alert details
+         */
+        JSONObject zipLevel = new JSONObject();
+		String latitude;
+        String longitude;
 
         // Handle SSL issue
         fixSSL();
 
         for (int i = 0; i < zipCodes.length; i++) {
+            // Get lat/long for zips
             try {
     			ZipCode dbZip = getDB().find(ZipCode.class, "zip" + zipCodes[i]);
 
-                JSONArray coords = new JSONArray();
-                coords.add(dbZip.getLatitude());
-                coords.add(dbZip.getLongitude());
+                latitude = dbZip.getLatitude();
+                longitude = dbZip.getLongitude();
 
-                JSONObject obj = new JSONObject();
-                obj.put(zipCodes[i], coords);
-
-                json.add(obj);
     		} catch(NoDocumentException e){
                 // Get the coordintes from the weather service
                 JSONObject latLong = geocode(zipCodes[i]);
-
-                System.out.println(latLong);
 
                 /*
                  *  TODO: handle no internet/errors
@@ -305,35 +313,52 @@ public class UtilitiesResource {
                 newZip.setLatitude(latLong.get("latitude").toString());
                 newZip.setLongitude(latLong.get("longitude").toString());
 
-                Response res = addZipCode(newZip);
+                Response cloudantRes = addZipCode(newZip);
 
                 // Check for errors when adding the zip
-                if (res.getStatus() == 201) {
-                    JSONArray coords = new JSONArray();
-                    coords.add(newZip.getLatitude());
-                    coords.add(newZip.getLongitude());
+                if (cloudantRes.getStatus() == 201) {
+                    latitude = newZip.getLatitude();
+                    longitude = newZip.getLongitude();
 
-                    JSONObject obj = new JSONObject();
-                    obj.put(zipCodes[i], null);
-                    json.add(obj);
                 } else {
                     // Assume zip is invalid
-                    JSONObject obj = new JSONObject();
-                    obj.put(zipCodes[i], null);
-                    json.add(obj);
+                    continue;
+                }
+    		}
+
+            // Get weather alerts from lat/long
+            String weatherRes = alerts(latitude, longitude);
+
+            // Java casting magic
+            JSONObject weatherJSON = JSONObject.parse(weatherRes);
+            int code = Integer.parseInt(((JSONObject)weatherJSON.get("metadata")).get("status_code").toString());
+
+            if (code == 200) {
+                JSONArray allInfo = (JSONArray)weatherJSON.get("alerts");
+                JSONArray alertLevel = new JSONArray();
+
+                // Grab the data for each alert
+                for (int j = 0; j < allInfo.size(); j++) {
+                    JSONObject detailLevel = new JSONObject();
+                    detailLevel.put("severity", ((JSONObject)allInfo.get(j)).get("severity"));
+                    detailLevel.put("headline", ((JSONObject)allInfo.get(j)).get("headline_text"));
+
+                    alertLevel.add(detailLevel);
                 }
 
+                zipLevel.put(zipCodes[i], alertLevel);
 
-    		}
+            } else {
+                // No alerts for zip code
+                zipLevel.put(zipCodes[i], null);
+
+            }
         }
-
-        return Response.ok(json).build();
-
+        return Response.ok(zipLevel).build();
  	}
 
     // POST a new zip code and coordinates to Cloudant
-    public Response addZipCode(ZipCode zipCode) throws Exception {
-        System.out.println("adding zip " + zipCode.getZip());
+    private Response addZipCode(ZipCode zipCode) throws Exception {
 		if(zipCode!=null && zipCode.isValid()) {
             // Handle SSL issue
             fixSSL();
@@ -345,23 +370,20 @@ public class UtilitiesResource {
 			String err = getDB().post(zipCode).getError();
 
 			if (err != null) {
-                System.out.println("err: " + err);
 				return Response.status(500).entity(err).build();
 			}
 			else {
-                System.out.println("201");
 				return Response.status(201).entity(zipCode).build();
 			}
 
 		}
 		else {
-            System.out.println("400");
 			return Response.status(400).entity("Invalid zip code document").build();
 		}
 	}
 
     // GET latitude and longitude for a specific zip code
-  	public JSONObject geocode(String zip) throws Exception {
+  	private JSONObject geocode(String zip) throws Exception {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -384,7 +406,7 @@ public class UtilitiesResource {
   	}
 
     // GET alerts for a specific latitude and longitude
-	public String alerts(String latitude, String longitude) throws Exception {
+	private String alerts(String latitude, String longitude) throws Exception {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
