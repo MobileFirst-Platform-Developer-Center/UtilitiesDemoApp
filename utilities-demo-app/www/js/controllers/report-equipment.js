@@ -80,15 +80,20 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
         var itemClone = WorkItems.curItem;
         delete itemClone.weather;
 
-        // POST the item
-		var req = new WLResourceRequest('adapters/CloudantUtilities/orders/' + itemClone._id, WLResourceRequest.PUT);
+        // PUT the item
+		var req = new WLResourceRequest('adapters/Utilities/orders/' + itemClone._id, WLResourceRequest.PUT);
 		req.setHeader('Content-type', 'application/json');
+        console.log(itemClone._id);
 		req.send(itemClone).then(
 			function(response) {
+                console.log('res');
+                console.log(response.responseJSON);
 				return response.responseJSON;
 			},
 			function(error) {
-				return response.responseJSON;
+                console.log('error');
+                console.log(error);
+				return error;
 			}
 			);
 		$state.go('workItems');

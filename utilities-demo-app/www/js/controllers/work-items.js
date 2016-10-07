@@ -3,6 +3,23 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 	$ionicNavBarDelegate.showBackButton(false);
 	$scope.curItem = null;
 
+	// Show weather warning popup
+	$scope.warn = function(alert) {
+		var output = '';
+		for (i = 0; i < alert.length; i++) {
+			output += 'Severity ' + alert[i].severity + '<br>    ' + alert[i].headline + '<br><br>';
+		}
+
+		var alertPopup = $ionicPopup.alert({
+			title: 'Inclement weather in area!',
+			template: output
+		});
+
+		alertPopup.then(function(res) {
+			// do nothing
+		});
+	};
+
 	// Show the loading popup
 	$scope.show = function() {
 		$ionicLoading.show({
@@ -45,13 +62,6 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 				}
 			}
 
-			// $scope.items = WorkItems.items;
-			// $scope.$apply();
-			// if (WorkItems.curItem._id) {
-			// 	$scope.curItem = WorkItems.curItem;
-			// 	$scope.$apply();
-			// }
-
 			$scope.updateItems();
 
 			// Call the weather update
@@ -72,12 +82,14 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 		});
 	}
 
+	// POST the zips and get weather alerts
 	$scope.updateWeather = function() {
 		var req = new WLResourceRequest('adapters/Utilities/weather', WLResourceRequest.POST, 15000);
 		req.setHeader('Content-type', 'application/json');
 
 		var zips = [];
 
+		// Get list of unique zips
 		for (i = 0; i < WorkItems.items.length; i++) {
 			if (!zips.includes(WorkItems.items[i].location.zip)) {
 				zips.push(WorkItems.items[i].location.zip);
@@ -86,18 +98,14 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 
 		req.send(zips).then(function(response) {
 			var res = response.responseJSON;
-			// console.log(res);
-			console.log('here 1');
 
+			// Add the response to the work items
 			for (i = 0; i < WorkItems.items.length; i++) {
 				var zip = WorkItems.items[i].location.zip;
-				console.log('here 2')
 				if (res[zip] !== null) {
-					console.log('real res');
 					WorkItems.items[i].weather = res[zip];
-					console.log(WorkItems.items[i].weather);
 				} else {
-					console.log('else')
+					// Remove the weather if there are no alerts
 					delete WorkItems.items[i].weather;
 				}
 			}
@@ -107,13 +115,12 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 			$scope.hide($ionicLoading);
 			return response.responseJSON;
 		}, function(error) {
-			console.log('error');
-			console.log(error);
 			$scope.hide($ionicLoading);
 			return;
 		});
 	}
 
+	// Apply the update to the work items
 	$scope.updateItems = function() {
 		$scope.items = WorkItems.items;
 		$scope.$apply();
