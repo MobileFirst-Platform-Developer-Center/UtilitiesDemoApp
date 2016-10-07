@@ -68,6 +68,7 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 	$scope.submit = function (details) {
 		// Remove extra JSON fields
 		delete WorkItems.curItem.valid;
+        delete WorkItems.curItem.location.valid;
 		delete WorkItems.curItem.$$hashKey;
 
 		// Edit input values for adapter
@@ -76,14 +77,15 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 		WorkItems.curItem.inspectionFinished = true;
 		WorkItems.curItem.details = details;
 
-        // Clone the current item and remove the weather
+        // Clone the current item and remove the weather and created time
         var itemClone = WorkItems.curItem;
         delete itemClone.weather;
+        // delete itemClone.;
 
         // PUT the item
 		var req = new WLResourceRequest('adapters/Utilities/orders/' + itemClone._id, WLResourceRequest.PUT);
 		req.setHeader('Content-type', 'application/json');
-        console.log(itemClone._id);
+        console.log(itemClone);
 		req.send(itemClone).then(
 			function(response) {
                 console.log('res');

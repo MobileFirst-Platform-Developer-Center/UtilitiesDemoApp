@@ -189,7 +189,7 @@ public class UtilitiesResource {
 			dbOrder.setAssignedTo(order.getAssignedTo());
             dbOrder.setInspectionFinished(order.getInspectionFinished());
             dbOrder.setDetails(order.getDetails());
-			// dbOrder.setLocation(order.getLocation());
+			dbOrder.setLocation(order.getLocation());
 
 			String err = getDB().update(dbOrder).getError();
 
