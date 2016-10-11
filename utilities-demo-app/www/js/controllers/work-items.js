@@ -45,12 +45,11 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 		$scope.show($ionicLoading);
 
 		// Clear old items and GET new ones
-		WorkItems.clear();
+		WorkItems.clearItems();
 		var req = new WLResourceRequest('adapters/Utilities/users', WLResourceRequest.POST, 15000);
 		req.setHeader('Content-type', 'application/json');
 
 		var name = 'George Costanza';
-		// console.log("making request to: " + JSON.stringify(req));
 
 		req.send(name).then(function(response) {
 			for (i = 0; i < response.responseJSON.length; i++) {
@@ -62,13 +61,18 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 				}
 			}
 
+			// Apply the updated items to the UI
 			$scope.updateItems();
 
-			// Call the weather update
-			$scope.updateWeather();
+			// Call the weather update if >20 minutes
+			var newDate = new Date();
+			if (!WorkItems.weather.time || newDate > WorkItems.weather.time.getTime() + (20*60000)) {
+				$scope.updateWeather();
+			} else {
+				$scope.weatherToItems();
+				$scope.hide($ionicLoading);
+			}
 
-			// Remove the loading popup and return
-			// $scope.hide($ionicLoading);
 			return response.responseJSON;
 		}, function(error) {	// Handle timeout
 			$scope.hide($ionicLoading);
@@ -84,6 +88,8 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 
 	// POST the zips and get weather alerts
 	$scope.updateWeather = function() {
+		// Clear the old weather info and update it
+		WorkItems.clearWeather();
 		var req = new WLResourceRequest('adapters/Utilities/weather', WLResourceRequest.POST, 15000);
 		req.setHeader('Content-type', 'application/json');
 
@@ -99,23 +105,26 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 		req.send(zips).then(function(response) {
 			var res = response.responseJSON;
 
-			// Add the response to the work items
-			for (i = 0; i < WorkItems.items.length; i++) {
-				var zip = WorkItems.items[i].location.zip;
-				if (res[zip] !== null) {
-					WorkItems.items[i].weather = res[zip];
-				} else {
-					// Remove the weather if there are no alerts
-					delete WorkItems.items[i].weather;
-				}
-			}
+			// Set the weather and time
+			WorkItems.setWeather(res);
+			WorkItems.weather.time = new Date();
 
+			// Add the weather to the work items
+			$scope.weatherToItems();
+
+			// Apply the updated items to the UI
 			$scope.updateItems();
 
 			$scope.hide($ionicLoading);
 			return response.responseJSON;
 		}, function(error) {
 			$scope.hide($ionicLoading);
+
+			// Alert the user it timed out
+			$ionicPopup.alert({
+				title: 'Request failed',
+				template: 'The weather request has timed out, proceed with caution. Check your connection and try again.'
+			});
 			return;
 		});
 	}
@@ -127,6 +136,19 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 		if (WorkItems.curItem._id) {
 			$scope.curItem = WorkItems.curItem;
 			$scope.$apply();
+		}
+	}
+
+	// Add the saved weather JSON to the work items list
+	$scope.weatherToItems = function() {
+		for (i = 0; i < WorkItems.items.length; i++) {
+			var zip = WorkItems.items[i].location.zip;
+			if (WorkItems.weather[zip] !== null) {
+				WorkItems.items[i].weather = WorkItems.weather[zip];
+			} else {
+				// Remove the weather if there are no alerts
+				delete WorkItems.items[i].weather;
+			}
 		}
 	}
 

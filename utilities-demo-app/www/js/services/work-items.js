@@ -1,7 +1,8 @@
 app.factory('WorkItems', function () {
 	var o = {
 		items: [],
-		curItem: {}
+		curItem: {},
+		weather: {}
 	}
 
 	o.addItem = function(item){
@@ -15,7 +16,7 @@ app.factory('WorkItems', function () {
 		}
 	}
 
-	o.clear = function() {
+	o.clearItems = function() {
 		o['items'] = [];
 	}
 
@@ -25,6 +26,14 @@ app.factory('WorkItems', function () {
 
 	o.removeWorkItem = function(){
 		o['curItem'] = {};
+	}
+
+	o.clearWeather = function(){
+		o['weather'] = [];
+	}
+
+	o.setWeather = function(weather){
+		o['weather'] = weather;
 	}
 
 	return o;
