@@ -64,7 +64,7 @@ app.factory('Auth', function ($rootScope) {
 			return WLAuthorizationManager.logout(securityCheckName);
 		},
 
-		login: function ($scope, username, password) {
+		login: function ($scope, username, password, rememberMeState) {
 			// register the challenge handler for `UserLogin`
 			bindChallengeHandler();
 			_$scope = $scope;
@@ -74,10 +74,10 @@ app.factory('Auth', function ($rootScope) {
 				});
 			} else if (authInProgress) {
 				// if the authorization is in progress then submit the user credentials to the challenge handler
-				challengeHandler.submitChallengeAnswer({'username': username, 'password': password});
+				challengeHandler.submitChallengeAnswer({'username': username, 'password': password, rememberMe: rememberMeState});
 			} else {
 				// the first time the user clicks login submit the user credentials along with the security check name `UserLogin`
-				WLAuthorizationManager.login(securityCheckName, {'username': username, 'password': password});
+				WLAuthorizationManager.login(securityCheckName, {'username': username, 'password': password, rememberMe: rememberMeState});
 			}
 		}
 	};
