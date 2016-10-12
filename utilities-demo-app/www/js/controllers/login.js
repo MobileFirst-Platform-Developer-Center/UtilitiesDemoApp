@@ -26,7 +26,7 @@ app.controller('LoginCtrl', function ($scope, $state, Auth, $ionicHistory, $ioni
 			console.log('username and password match, proceeding to login');
 			// Proceed to login
 			if (!authInProgress) {
-				Auth.login($scope, $scope.credentials.username.toLowerCase(), $scope.credentials.password.toLowerCase());
+				Auth.login($scope, $scope.credentials.username.toLowerCase(), $scope.credentials.password.toLowerCase(), $scope.credentials.rememberMe);
 				authInProgress = true;
 			}
 		} else {
