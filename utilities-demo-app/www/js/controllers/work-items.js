@@ -3,6 +3,23 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 	$ionicNavBarDelegate.showBackButton(false);
 	$scope.curItem = null;
 
+	// Show weather warning popup
+	$scope.warn = function(alert) {
+		var output = '';
+		for (i = 0; i < alert.length; i++) {
+			output += 'Severity ' + alert[i].severity + '<br>    ' + alert[i].headline + '<br><br>';
+		}
+
+		var alertPopup = $ionicPopup.alert({
+			title: 'Inclement weather in area!',
+			template: output
+		});
+
+		alertPopup.then(function(res) {
+			// do nothing
+		});
+	};
+
 	// Show the loading popup
 	$scope.show = function() {
 		$ionicLoading.show({
@@ -28,11 +45,11 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 		$scope.show($ionicLoading);
 
 		// Clear old items and GET new ones
-		WorkItems.clear();
-		var req = new WLResourceRequest('adapters/CloudantUtilities/users', WLResourceRequest.POST, 15000);
+		WorkItems.clearItems();
+		var req = new WLResourceRequest('adapters/Utilities/users', WLResourceRequest.POST, 15000);
 		req.setHeader('Content-type', 'application/json');
+
 		var name = 'George Costanza';
-		console.log("making request to: " + JSON.stringify(req));
 
 		req.send(name).then(function(response) {
 			for (i = 0; i < response.responseJSON.length; i++) {
@@ -44,14 +61,18 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 				}
 			}
 
-			$scope.items = WorkItems.items;
-			$scope.$apply();
-			if (WorkItems.curItem._id) {
-				$scope.curItem = WorkItems.curItem;
-				$scope.$apply();
+			// Apply the updated items to the UI
+			$scope.updateItems();
+
+			// Call the weather update if >20 minutes
+			var newDate = new Date();
+			if (!WorkItems.weather.time || newDate > WorkItems.weather.time.getTime() + (20*60000)) {
+				$scope.updateWeather();
+			} else {
+				$scope.weatherToItems();
+				$scope.hide($ionicLoading);
 			}
 
-			$scope.hide($ionicLoading);
 			return response.responseJSON;
 		}, function(error) {	// Handle timeout
 			$scope.hide($ionicLoading);
@@ -63,6 +84,72 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 			});
 			return;
 		});
+	}
+
+	// POST the zips and get weather alerts
+	$scope.updateWeather = function() {
+		// Clear the old weather info and update it
+		WorkItems.clearWeather();
+		var req = new WLResourceRequest('adapters/Utilities/weather', WLResourceRequest.POST, 15000);
+		req.setHeader('Content-type', 'application/json');
+
+		var zips = [];
+
+		// Get list of unique zips
+		for (i = 0; i < WorkItems.items.length; i++) {
+			if (!zips.includes(WorkItems.items[i].location.zip)) {
+				zips.push(WorkItems.items[i].location.zip);
+			}
+		}
+
+		req.send(zips).then(function(response) {
+			var res = response.responseJSON;
+
+			// Set the weather and time
+			WorkItems.setWeather(res);
+			WorkItems.weather.time = new Date();
+
+			// Add the weather to the work items
+			$scope.weatherToItems();
+
+			// Apply the updated items to the UI
+			$scope.updateItems();
+
+			$scope.hide($ionicLoading);
+			return response.responseJSON;
+		}, function(error) {
+			$scope.hide($ionicLoading);
+
+			// Alert the user it timed out
+			$ionicPopup.alert({
+				title: 'Request failed',
+				template: 'The weather request has timed out, proceed with caution. Check your connection and try again.'
+			});
+			return;
+		});
+	}
+
+	// Apply the update to the work items
+	$scope.updateItems = function() {
+		$scope.items = WorkItems.items;
+		$scope.$apply();
+		if (WorkItems.curItem._id) {
+			$scope.curItem = WorkItems.curItem;
+			$scope.$apply();
+		}
+	}
+
+	// Add the saved weather JSON to the work items list
+	$scope.weatherToItems = function() {
+		for (i = 0; i < WorkItems.items.length; i++) {
+			var zip = WorkItems.items[i].location.zip;
+			if (WorkItems.weather[zip] !== null) {
+				WorkItems.items[i].weather = WorkItems.weather[zip];
+			} else {
+				// Remove the weather if there are no alerts
+				delete WorkItems.items[i].weather;
+			}
+		}
 	}
 
 	// Select the work item to report

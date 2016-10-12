@@ -17,6 +17,20 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 		'inspectionPass': true
 	};
 
+	buildAddress = function(obj) {
+		var address = '';
+		if (obj.number != null) {
+			address = address + obj.number + ' ';
+		}
+		if (obj.street != null) {
+			address = address + obj.street + ' ';
+		}
+		address = address + obj.city + ', ' + obj.state + ' ' + obj.zip;
+		return address;
+	}
+
+	$scope.address = buildAddress(WorkItems.curItem.location);
+
 	// Var for original back function
 	var oldSoftBack = $rootScope.$ionicGoBack;
 
@@ -54,22 +68,34 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
 	$scope.submit = function (details) {
 		// Remove extra JSON fields
 		delete WorkItems.curItem.valid;
+        delete WorkItems.curItem.location.valid;
 		delete WorkItems.curItem.$$hashKey;
+
 		// Edit input values for adapter
 		details.inspectionPass = $scope.details.inspectionPass;
 		details.manufactureYear = parseInt(details.manufactureYear);
 		WorkItems.curItem.inspectionFinished = true;
-		// Set new values to body
 		WorkItems.curItem.details = details;
-		var req = new WLResourceRequest('adapters/CloudantUtilities/orders/' + WorkItems.curItem._id, WLResourceRequest.PUT);
+
+        // Clone the current item and remove the weather and created time
+        var itemClone = WorkItems.curItem;
+        delete itemClone.weather;
+        // delete itemClone.;
+
+        // PUT the item
+		var req = new WLResourceRequest('adapters/Utilities/orders/' + itemClone._id, WLResourceRequest.PUT);
 		req.setHeader('Content-type', 'application/json');
-		// console.log(WorkItems.curItem);
-		req.send(WorkItems.curItem).then(
+        console.log(itemClone);
+		req.send(itemClone).then(
 			function(response) {
+                console.log('res');
+                console.log(response.responseJSON);
 				return response.responseJSON;
 			},
 			function(error) {
-				return response.responseJSON;
+                console.log('error');
+                console.log(error);
+				return error;
 			}
 			);
 		$state.go('workItems');
