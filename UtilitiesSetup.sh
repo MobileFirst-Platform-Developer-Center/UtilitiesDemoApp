@@ -110,16 +110,11 @@ if [[ $serv = *"cloudant-utilities"* ]]
         apiPass=$(grep password <<< "$api" | sed 's/^.*: //' | tr -d ',"')
 
         # # Add the writing permissions
-        # permissions=$(curl -u $creds "$url/_api/v2/db/orders/_security")
-        # echo "$permissions"
-        # newPermissions=$(sed -e '/"_writer"/d; s/"_reader"/"_reader", "_writer"/; ' <<< "$permissions")
-        # echo "$newPermissions"
         permissions="{ \"_id\": \"security\", \"cloudant\": { \"$apiKey\": [ \"_reader\", \"_writer\" ], \"$cloudantUser\": [ \"_admin\", \"_reader\", \"_writer\", \"_replicator\" ], \"nobody\": [] } }"
         curl -u $creds "$url/_api/v2/db/orders/_security" -X PUT -H "Content-Type: application/json" -d "$permissions"
 
-        # Add userid doc
-        userDoc="{\"_id\": \"_design/userDoc\",\"views\": {\"userIndex\": {\"map\": \"function (doc) { if (!doc.inspectionFinished) { emit(doc.assignedTo, doc._id); }}\"}},\"language\": \"javascript\"}"
-        curl -X POST -u $creds "$url/orders" -H "Content-Type: application/json" -d "$userDoc"
+        # Populate Cloudant docs and index
+        curl -X POST -u $creds "$url/orders/_bulk_docs" -H "Content-Type: application/json" -d @db.json
 fi
 
 # Add the Weather credentials

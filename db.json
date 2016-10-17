@@ -1,0 +1,16 @@
+{"docs":[
+{"_id":"448797502","addedBy":"Cosmo Kramer","assignedTo":"George Costanza","created":"Sep 29, 2016 2:32:56 PM","inspectionFinished":false,"details":{"inspectedBy":"George Costanza","fileName":"448797502_inspection.pdf","date":"Oct 7, 2016 7:00:59 PM","inspectionPass":true},"location":{"city":"Carrboro","state":"NC","street":"Main St","zip":27968}},
+{"_id":"675203509","addedBy":"Cosmo Kramer","assignedTo":"George Costanza","created":"Sep 29, 2016 3:08:34 PM","inspectionFinished":false,"details":{"inspectionPass":false},"location":{"city":"Carrboro","state":"NC","street":"Main St","zip":27968}},
+{"_id":"685259426","addedBy":"Cosmo Kramer","assignedTo":"George Costanza","created":"Sep 23, 2016 12:57:36 PM","inspectionFinished":false,"details":{"inspectionPass":false},"location":{"city":"Carrboro","state":"NC","street":"Main St","zip":27510}},
+{"_id":"797385665","addedBy":"Cosmo Kramer","assignedTo":"George Costanza","created":"Sep 23, 2016 12:55:38 PM","inspectionFinished":false,"details":{"model":"Dishwasher 1","serial":"123ABC","manufacturer":"Sears","inspectedBy":"George Costanza","failReason":"Some reason here.","fileName":"Sears-dishwasher1","notes":"Notes go here.","manufactureYear":2016,"lastInspected":"Oct 20, 2013 8:00:00 PM","date":"Sep 23, 2016 12:55:38 PM","inspectionPass":false},"location":{"city":"Durham","state":"NC","street":"Fake St","number":123,"zip":27968}},
+{"_id":"968139671","addedBy":"Cosmo Kramer","assignedTo":"George Costanza","created":"Sep 23, 2016 12:57:18 PM","inspectionFinished":false,"details":{"inspectionPass":false},"location":{"city":"Durham","state":"NC","street":"Main St","number":456,"zip":27701}},
+{"_id":"_design/userDoc","views":{"userIndex":{"map":"function (doc) {  if (!doc.inspectionFinished) {    emit(doc.assignedTo, doc._id);  }}"}},"language":"javascript"},
+{"_id":"zip27510","zip":"27510","longitude":"-79.075289","latitude":"35.910144"},
+{"_id":"zip27701","zip":"27701","latitude":"36.000219","longitude":"-78.900439"},
+{"_id":"zip27915","zip":"27915","latitude":"35.3526834","longitude":"-75.5093791"},
+{"_id":"zip27929","zip":"27929","latitude":"36.4164725","longitude":"-75.9957922"},
+{"_id":"zip27949","zip":"27949","latitude":"36.0657533","longitude":"-75.7092683"},
+{"_id":"zip27968","zip":"27968","latitude":"35.5939749","longitude":"-75.4649058"},
+{"_id":"zip28357","zip":"28357","latitude":"34.888497311713884","longitude":"-79.07225157889337"},
+{"_id":"zip28360","zip":"28360","latitude":"34.6694649","longitude":"-79.0099647"}
+]}
