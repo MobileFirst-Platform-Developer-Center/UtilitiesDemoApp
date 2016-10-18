@@ -143,7 +143,6 @@ fi
 
 echo ""
 echo ""
-echo ""
 echo -e "${GREEN}Here are your credentials. Add them to the Utilities adapter on the Mobile First service.${NC}"
 echo ""
 echo "Cloudant Username: $cloudantUser"
@@ -152,3 +151,74 @@ echo "Cloudant Api Password: $cloudantPass"
 echo "Cloudant Database Name: orders"
 echo "Weather Username: $weatherUser"
 echo "Weather Password: $weatherPass"
+
+
+##############################################
+#                   Ionic Setup
+##############################################
+
+
+cd utilities-demo-app
+
+echo
+echo
+echo "==> Adding ios"
+echo
+ionic platform add ios@latest
+
+echo
+echo
+echo "==> Adding android"
+echo
+ionic platform add android@latest
+
+echo
+echo
+echo "==>  Prepare"
+echo
+ionic prepare
+
+echo
+echo
+echo "==> Updating resources"
+echo
+ionic resources
+
+echo
+echo
+echo "==> Building project"
+echo
+ionic build
+
+# Setup mfp
+
+echo
+echo
+echo "Registering with MFP"
+echo
+mfpdev app register
+
+ cd ../adapters/
+
+echo
+echo
+echo "==> Building and Deploying all adapters"
+echo
+ for d in */ ; do
+    echo "===> $d is being built and deployed'"
+    cd $d
+    mfpdev adapter build
+    mfpdev adapter deploy
+    echo "===X $d process completed"
+    cd ../
+done
+
+echo
+echo
+echo "==> Opening MFP Console"
+echo
+mfpdev server console
+
+
+
+echo "==X init.sh has completed"
