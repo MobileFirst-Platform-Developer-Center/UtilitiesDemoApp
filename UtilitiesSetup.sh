@@ -57,10 +57,14 @@ fi
 #                   Services
 ##############################################
 
+YELLOW="\033[1;33m"
+GREEN="\033[1;32m"
+NC="\033[0m" # No Color
+
 # Create the Mobile Foundation service
 echo ""
 echo ""
-echo "Provisioning Mobile Foundation..."
+echo -e "${YELLOW}1. Provisioning Mobile Foundation...${NC}"
 echo ""
 
 cf create-service 'Mobile Foundation' 'Developer' mf-utilities
@@ -68,7 +72,7 @@ cf create-service 'Mobile Foundation' 'Developer' mf-utilities
 # Create the Cloudant service
 echo ""
 echo ""
-echo "Provisioning Cloudant..."
+echo -e "${YELLOW}2. Provisioning Cloudant...${NC}"
 echo ""
 
 cf create-service cloudantNoSQLDB 'Lite' cloudant-utilities
@@ -76,7 +80,7 @@ cf create-service cloudantNoSQLDB 'Lite' cloudant-utilities
 # Create the Weather Insights service
 echo ""
 echo ""
-echo "Provisioning Weather Insights..."
+echo -e "${YELLOW}3. Provisioning Weather Insights...${NC}"
 echo ""
 
 cf create-service weatherinsights 'Free-v2' weather-utilities
@@ -92,6 +96,11 @@ serv=$(cf services)
 if [[ $serv = *"cloudant-utilities"* ]]
     then
         echo ""
+        echo ""
+        echo -e "${YELLOW}4. Setting up Cloudant...${NC}"
+        echo ""
+
+        # Add credentials
         cf create-service-key cloudant-utilities Credentials
         cloudantCreds=$(cf service-key cloudant-utilities Credentials)
         cloudantHost=$(grep host <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
@@ -111,7 +120,7 @@ if [[ $serv = *"cloudant-utilities"* ]]
 
         # # Add the writing permissions
         permissions="{ \"_id\": \"security\", \"cloudant\": { \"$apiKey\": [ \"_reader\", \"_writer\" ], \"$cloudantUser\": [ \"_admin\", \"_reader\", \"_writer\", \"_replicator\" ], \"nobody\": [] } }"
-        curl -u $creds "$url/_api/v2/db/orders/_security" -X PUT -H "Content-Type: application/json" -d "$permissions"
+        curl -X PUT -u $creds "$url/_api/v2/db/orders/_security" -H "Content-Type: application/json" -d "$permissions"
 
         # Populate Cloudant docs and index
         curl -X POST -u $creds "$url/orders/_bulk_docs" -H "Content-Type: application/json" -d @db.json
@@ -121,9 +130,25 @@ fi
 if [[ $serv = *"weather-utilities"* ]]
     then
         echo ""
+        echo ""
+        echo -e "${YELLOW}5. Setting up Weather Service...${NC}"
+        echo ""
+
+        # Add credentials
         cf create-service-key weather-utilities Credentials
         weatherCreds=$(cf service-key weather-utilities Credentials)
-        weatherHost=$(grep host <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
-        weatherPass=$(grep password <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
         weatherUser=$(grep username <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
+        weatherPass=$(grep password <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
 fi
+
+echo ""
+echo ""
+echo ""
+echo -e "${GREEN}Here are your credentials. Add them to the Utilities adapter on the Mobile First service.${NC}"
+echo ""
+echo "Cloudant Username: $cloudantUser"
+echo "Cloudant Api Key: $apiKey"
+echo "Cloudant Api Password: $cloudantPass"
+echo "Cloudant Database Name: orders"
+echo "Weather Username: $weatherUser"
+echo "Weather Password: $weatherPass"
