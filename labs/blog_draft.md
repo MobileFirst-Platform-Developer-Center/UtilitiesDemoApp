@@ -5,10 +5,14 @@
 
 ## Security
 
-## Ease of use for using Cloudant
+## Ease of use: for using Cloudant
+
+## Weather
 
 ## Watson
 
-## JS Adapter Documentation
-
 ## Conclusion
+
+
+<!-- Other blog -->
+## JS Adapter Documentation (help)
