@@ -226,7 +226,6 @@ read -p "Press any button to open the browser..."
 open $mfUrl
 
 read -p "Password: " serverPass
-echo $serverPass
 
 mfpdev server add mf-utilities -u "https://$serverUrl:443" -l admin -p "$serverPass" -c mfpadmin
 
