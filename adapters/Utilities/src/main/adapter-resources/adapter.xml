@@ -24,11 +24,11 @@ limitations under the License.
 
 	<JAXRSApplicationClass>com.sample.UtilitiesApplication</JAXRSApplicationClass>
 
-	<property name="cloudantAccount" displayName="Cloudant username" defaultValue=""/>
-	<property name="cloudantKey" displayName="Cloudant api key" defaultValue=""/>
-	<property name="cloudantPassword" displayName="Cloudant api password" defaultValue=""/>
-	<property name="DBName" displayName="Cloudant database name" defaultValue=""/>
-    <property name="weatherUsername" displayName="Weather username" defaultValue=""/>
-    <property name="weatherPassword" displayName="Weather password" defaultValue=""/>
+	<property name="cloudantAccount" displayName="Cloudant Username" defaultValue=""/>
+	<property name="cloudantKey" displayName="Cloudant Api Key" defaultValue=""/>
+	<property name="cloudantPassword" displayName="Cloudant Api Password" defaultValue=""/>
+	<property name="DBName" displayName="Cloudant Database Name" defaultValue=""/>
+    <property name="weatherUsername" displayName="Weather Username" defaultValue=""/>
+    <property name="weatherPassword" displayName="Weather Password" defaultValue=""/>
 
 </mfp:adapter>
