@@ -4,84 +4,94 @@
 #                   Login
 ##############################################
 
+# Color vars
+YELLOW="\033[1;93m"
+GREEN="\033[1;92m"
+BLUE="\033[1;96m"
+RED="\033[7;91m"
+NC="\033[0m" # No Color
+
 # check if user is logged in
 auth=$(cf apps)
 
-if [[ $auth = *"Not logged in"* ]]
-    then
-    	echo "Choose a location:"
+if [[ $auth = *"Not logged in"* ]]; then
+	echo "Choose a location:"
 
-    	# list of locations
-    	locations="US-South
-    	UK
-        Australia"
+	# list of locations
+	locations="US-South
+	UK
+    Australia"
 
-    	# pick a location
-    	select loc in $locations;
+	# pick a location
+	select loc in $locations;
 
-    	do
-    		if [ "$loc" = "US-South" ]; then
-    			url="https://api.ng.bluemix.net"
-                break
-    		elif [ "$loc" = "UK" ]; then
-    			url="https://api.eu-gb.bluemix.net"
-                break
-            elif [ "$loc" = "Australia" ]; then
-    			url="https://api.au-syd.bluemix.net"
-                break
-    		else
-    			echo "Invalid choice"
-    		fi
-    	done
+	do
+		if [ "$loc" = "US-South" ]; then
+			url="https://api.ng.bluemix.net"
+            break
+		elif [ "$loc" = "UK" ]; then
+			url="https://api.eu-gb.bluemix.net"
+            break
+        elif [ "$loc" = "Australia" ]; then
+			url="https://api.au-syd.bluemix.net"
+            break
+		else
+			echo "Invalid choice"
+		fi
+	done
 
-    	echo ""
+	echo
 
-    	# login to cf
-    	cf login -a $url
+	# login to cf
+	cf login -a $url
 
-    	# check if login was successful
-    	auth=$(cf apps)
+	# check if login was successful
+	auth=$(cf apps)
 
-    	if [[ $auth = *"FAILED"* ]] || [[ $auth = *"Not logged in"* ]]
-            then
-        		echo "Login unsuccessful."
-        		exit
-    	fi
-    elif [[ $auth = *"FAILED"* ]]
-        then
-        	echo "No internet connection."
-        	exit
+	if [[ $auth = *"FAILED"* ]] || [[ $auth = *"Not logged in"* ]]; then
+		echo -e "${RED}Login unsuccessful.${NC}"
+		exit
+	fi
+elif [[ $auth = *"FAILED"* ]]; then
+	echo -e "${RED}No internet connection.${NC}"
+	exit
 fi
 
 ##############################################
 #                   Services
 ##############################################
 
-YELLOW="\033[1;33m"
-GREEN="\033[1;32m"
-NC="\033[0m" # No Color
-
 # Create the Mobile Foundation service
-echo ""
-echo ""
-echo -e "${YELLOW}1. Provisioning Mobile Foundation...${NC}"
-echo ""
+echo
+echo
+echo -e "${YELLOW}==> Provisioning Mobile Foundation...${NC}"
+echo
 
 cf create-service 'Mobile Foundation' 'Developer' mf-utilities
 
+# Prompt the user to start the server
+echo -e "${YELLOW}==> Setting up Mobile Foundation...${NC}"
+mf=$(cf service mf-utilities)
+mfUrl=$(grep Dashboard <<< "$mf" | sed 's/^.*: //')
+
+echo "The page for the server is about to open in your browser. Click the button 'Start Basic Server'."
+read -p "Press any button to open the browser..."
+
+open $mfUrl
+
 # Create the Cloudant service
-echo ""
-echo ""
-echo -e "${YELLOW}2. Provisioning Cloudant...${NC}"
-echo ""
+echo
+echo
+echo -e "${YELLOW}==> Provisioning Cloudant...${NC}"
+echo
 
 cf create-service cloudantNoSQLDB 'Lite' cloudant-utilities
 
 # Create the Weather Insights service
-echo ""
-echo ""
-echo -e "${YELLOW}3. Provisioning Weather Insights...${NC}"
-echo ""
+echo
+echo
+echo -e "${YELLOW}==> Provisioning Weather Insights...${NC}"
+echo
 
 cf create-service weatherinsights 'Free-v2' weather-utilities
 
@@ -93,132 +103,189 @@ cf create-service weatherinsights 'Free-v2' weather-utilities
 serv=$(cf services)
 
 # Add the Cloudant credentials
-if [[ $serv = *"cloudant-utilities"* ]]
-    then
-        echo ""
-        echo ""
-        echo -e "${YELLOW}4. Setting up Cloudant...${NC}"
-        echo ""
+if [[ $serv = *"cloudant-utilities"* ]]; then
+    echo
+    echo
+    echo -e "${YELLOW}==> Setting up Cloudant...${NC}"
+    echo
 
-        # Add credentials
-        cf create-service-key cloudant-utilities Credentials
-        cloudantCreds=$(cf service-key cloudant-utilities Credentials)
-        cloudantHost=$(grep host <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
-        cloudantPass=$(grep password <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
-        cloudantUser=$(grep username <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
+    # Add credentials
+    cf create-service-key cloudant-utilities Credentials
+    cloudantCreds=$(cf service-key cloudant-utilities Credentials)
+    cloudantHost=$(grep host <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
+    cloudantPass=$(grep password <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
+    cloudantUser=$(grep username <<< "$cloudantCreds" | sed 's/^.*: //' | tr -d ',"')
 
-        url="https://$cloudantHost"
-        creds="$cloudantUser:$cloudantPass"
+    url="https://$cloudantHost"
+    creds="$cloudantUser:$cloudantPass"
 
-        # Create the new database
-        curl -X PUT -u $creds "$url/orders/"
+    # Create the new database
+    hide=$(curl -X PUT -u $creds "$url/orders/")
 
-        # Generate the api key
-        api=$(curl -X POST -u $creds "$url/_api/v2/api_keys")
-        apiKey=$(grep key <<< "$api" | sed 's/^.*: //' | tr -d ',"')
-        apiPass=$(grep password <<< "$api" | sed 's/^.*: //' | tr -d ',"')
+    # Generate the api key
+    api=$(curl -X POST -u $creds "$url/_api/v2/api_keys")
+    apiKey=$(grep key <<< "$api" | sed 's/^.*: //' | tr -d ',"')
+    apiPass=$(grep password <<< "$api" | sed 's/^.*: //' | tr -d ',"')
 
-        # # Add the writing permissions
-        permissions="{ \"_id\": \"security\", \"cloudant\": { \"$apiKey\": [ \"_reader\", \"_writer\" ], \"$cloudantUser\": [ \"_admin\", \"_reader\", \"_writer\", \"_replicator\" ], \"nobody\": [] } }"
-        curl -X PUT -u $creds "$url/_api/v2/db/orders/_security" -H "Content-Type: application/json" -d "$permissions"
+    # # Add the writing permissions
+    permissions="{ \"_id\": \"security\", \"cloudant\": { \"$apiKey\": [ \"_reader\", \"_writer\" ], \"$cloudantUser\": [ \"_admin\", \"_reader\", \"_writer\", \"_replicator\" ], \"nobody\": [] } }"
+    hide=$(curl -X PUT -u $creds "$url/_api/v2/db/orders/_security" -H "Content-Type: application/json" -d "$permissions")
 
-        # Populate Cloudant docs and index
-        curl -X POST -u $creds "$url/orders/_bulk_docs" -H "Content-Type: application/json" -d @db.json
+    # Populate Cloudant docs and index
+    hide=$(curl -X POST -u $creds "$url/orders/_bulk_docs" -H "Content-Type: application/json" -d @db.json)
+else
+    echo -e "${RED}Error adding Cloudant${NC}"
 fi
 
 # Add the Weather credentials
-if [[ $serv = *"weather-utilities"* ]]
-    then
-        echo ""
-        echo ""
-        echo -e "${YELLOW}5. Setting up Weather Service...${NC}"
-        echo ""
+if [[ $serv = *"weather-utilities"* ]]; then
+    echo
+    echo
+    echo -e "${YELLOW}==> Setting up Weather Service...${NC}"
+    echo
 
-        # Add credentials
-        cf create-service-key weather-utilities Credentials
-        weatherCreds=$(cf service-key weather-utilities Credentials)
-        weatherUser=$(grep username <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
-        weatherPass=$(grep password <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
+    # Add credentials
+    cf create-service-key weather-utilities Credentials
+    weatherCreds=$(cf service-key weather-utilities Credentials)
+    weatherUser=$(grep username <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
+    weatherPass=$(grep password <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
+else
+    echo -e "${RED}Error adding Weather${NC}"
 fi
 
-echo ""
-echo ""
+##############################################
+#                   Ionic
+##############################################
+
+
+cd utilities-demo-app
+
+# Add platforms
+echo
+echo
+echo -e "${YELLOW}==> Adding ios...${NC}"
+echo
+ionic platform add ios@latest
+
+echo
+echo
+echo -e "${YELLOW}==> Adding android...${NC}"
+echo
+ionic platform add android@latest
+
+# Set up ionic
+echo
+echo
+echo -e "${YELLOW}==> Updating resources...${NC}"
+echo
+ionic resources
+
+echo
+echo
+echo -e "${YELLOW}==> Preparing...${NC}"
+echo
+ionic prepare
+
+echo
+echo
+echo -e "${YELLOW}==> Building project...${NC}"
+echo
+ionic build
+
+# Check if the server is runnning
+apps=$(cf apps)
+finished=$(grep "mf-utilities" <<< "$apps")
+marks=( '/' '-' '\' '|' )
+echo "The server is still starting up, this may take a few minutes."
+while [[ $finished != *"1/1"* ]]; do
+    counter=0
+    while (( $(( $counter < 200 )) )); do
+        printf '%s\r' "Waiting for server...${marks[i++ % ${#marks[@]}]}"
+        sleep .05
+        counter=$(( $counter + 1 ))
+    done
+    apps=$(cf apps)
+    finished=$(grep "mf-utilities" <<< "$apps")
+done
+
+# Another 30 seconds to fix app registration issues
+counter=0
+while (( $(( $counter < 600 )) )); do
+    printf '%s\r' "Waiting for server...${marks[i++ % ${#marks[@]}]}"
+    sleep .05
+    counter=$(( $counter + 1 ))
+done
+
+# Update mfpdev
+serverUrl=$(grep mf-utilities <<< "$apps" | sed 's/^.* //')
+
+echo "The page for the server is about to open in your browser. Click the eye icon next to 'Password' and copy the password into the prompt."
+echo -e "${BLUE}When the page opens the server may still be starting up. Please be patient and wait for it to finish.${NC}"
+read -p "Press any button to open the browser..."
+
+open $mfUrl
+
+read -p "Password: " serverPass
+echo $serverPass
+
+mfpdev server add mf-utilities -u "https://$serverUrl:443" -l admin -p "$serverPass" -c mfpadmin
+
+# Setup mfp
+echo
+echo
+echo -e "${YELLOW}==> Registering with MFP...${NC}"
+echo
+mfpdev app register mf-utilities
+
+echo
+echo
+echo -e "${YELLOW}==> Preparing...${NC}"
+echo
+ionic prepare
+
+# Build and deploy adapters
+echo
+echo
+echo -e "${YELLOW}==> Building and Deploying all adapters...${NC}"
+echo
+cd ../adapters/
+for d in */ ; do
+    cd $d
+    pwd=$(pwd)
+    # Don't deploy the Utilities adapter
+    if [[ $pwd != *"/Utilities"* ]]; then
+        echo -e "${YELLOW}===> $d is being built and deployed${NC}"
+        mfpdev adapter build mf-utilities
+        mfpdev adapter deploy mf-utilities
+    else
+        echo -e "${YELLOW}===> $d is being built${NC}"
+        mfpdev adapter build mf-utilities
+    fi
+    echo -e "${YELLOW}===X $d process completed${NC}"
+    cd ../
+done
+
+echo
+echo -e "${YELLOW}==X init.sh has completed${NC}"
+
+# Tell user to deploy adapter
+echo
+echo
+echo -e "The ${BLUE}Utilities${NC} adapter was unable to be deployed. You must deploy the adapter manually in the Mobile Foundation console."
+echo -e "In the console select '${BLUE}Adapters${NC}' on the left, click '${BLUE}Actions${NC}' on the top right, and click '${BLUE}Deploy Adapter${NC}.'"
+echo -e "Navigate to the '${BLUE}adapters/Utilities/target${NC}' folder and choose '${BLUE}Utilities.adapter${NC}' file."
+echo "When you are done, come back to the this terminal to find the configuration variables for the adapter."
+echo
+read -p "Press any button to open the Mobile First Console..."
+mfpdev server console mf-utilities
+
+# Output the Utilities variables
+echo
 echo -e "${GREEN}Here are your credentials. Add them to the Utilities adapter on the Mobile First service.${NC}"
-echo ""
+echo
 echo "Cloudant Username: $cloudantUser"
 echo "Cloudant Api Key: $apiKey"
 echo "Cloudant Api Password: $cloudantPass"
 echo "Cloudant Database Name: orders"
 echo "Weather Username: $weatherUser"
 echo "Weather Password: $weatherPass"
-
-
-##############################################
-#                   Ionic Setup
-##############################################
-
-
-cd utilities-demo-app
-
-echo
-echo
-echo "==> Adding ios"
-echo
-ionic platform add ios@latest
-
-echo
-echo
-echo "==> Adding android"
-echo
-ionic platform add android@latest
-
-echo
-echo
-echo "==>  Prepare"
-echo
-ionic prepare
-
-echo
-echo
-echo "==> Updating resources"
-echo
-ionic resources
-
-echo
-echo
-echo "==> Building project"
-echo
-ionic build
-
-# Setup mfp
-
-echo
-echo
-echo "Registering with MFP"
-echo
-mfpdev app register
-
- cd ../adapters/
-
-echo
-echo
-echo "==> Building and Deploying all adapters"
-echo
- for d in */ ; do
-    echo "===> $d is being built and deployed'"
-    cd $d
-    mfpdev adapter build
-    mfpdev adapter deploy
-    echo "===X $d process completed"
-    cd ../
-done
-
-echo
-echo
-echo "==> Opening MFP Console"
-echo
-mfpdev server console
-
-
-
-echo "==X init.sh has completed"
