@@ -304,9 +304,6 @@ public class UtilitiesResource {
                 // Get the coordintes from the weather service
                 JSONObject latLong = geocode(zipCodes[i]);
 
-                /*
-                 *  TODO: handle no internet/errors
-                 */
                 // Add the zip code to Cloudant
                 ZipCode newZip = new ZipCode();
                 newZip.setZip(zipCodes[i]);
@@ -392,9 +389,6 @@ public class UtilitiesResource {
             .addHeader("Authorization", getCredentials())
             .build();
 
-        /*
-         *  TODO: handle no internet/errors
-         */
         okhttp3.Response response = client.newCall(request).execute();
         String body = response.body().string();
         JSONObject json = JSONObject.parse(body);
@@ -415,21 +409,8 @@ public class UtilitiesResource {
             .addHeader("Authorization", getCredentials())
             .build();
 
-        /*
-         *  TODO: handle no internet/errors
-         */
         okhttp3.Response response = client.newCall(request).execute();
         return response.body().string();
-
-        /*
-         * One library method, might use
-         */
-        // String output = client.newCall(request).execute().body().string();
-        // JSONObject json = JSONObject.parse(output);
-        //
-        // // Java casting magic
-        // int code = Integer.parseInt(((JSONObject)json.get("metadata")).get("status_code").toString());
-        // return Response.status(code).entity(output).build();
 	}
 
 }
