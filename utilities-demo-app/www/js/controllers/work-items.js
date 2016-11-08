@@ -97,7 +97,7 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 
 		// Get list of unique zips
 		for (i = 0; i < WorkItems.items.length; i++) {
-			if (!zips.includes(WorkItems.items[i].location.zip)) {
+			if (zips.indexOf(WorkItems.items[i].location.zip) != -1) {
 				zips.push(WorkItems.items[i].location.zip);
 			}
 		}
