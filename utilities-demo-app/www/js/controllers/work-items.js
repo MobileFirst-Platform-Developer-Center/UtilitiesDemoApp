@@ -52,8 +52,11 @@ app.controller('WorkItemsCtrl', function($scope, $state, $ionicNavBarDelegate, $
 		var name = 'George Costanza';
 
 		req.send(name).then(function(response) {
-			for (i = 0; i < response.responseJSON.length; i++) {
-				var item = response.responseJSON[i];
+
+            // Not sure why this JSON.parse is necessary now, but it is
+            var ordersJson = JSON.parse(response.responseText);
+			for (i = 0; i < ordersJson.length; i++) {
+				var item = ordersJson[i];
 
 				// Keep just finished item out of list (might return before cloudant is updated)
 				if (WorkItems.curItem._id != item._id) {
