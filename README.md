@@ -1,50 +1,33 @@
-# Overview
-This utilities maintanence app demonstrates multiple Foundation features coupled with Bluemix services to create an app that works seamlessly for the customer.
+# README
 
-## CORD Americas Omega Team:
 
-| Role | Name | Email | 
-| --- | --- | --- | 
-| Offering Manager | Carmel Schindelhaim | carmels@il.ibm.com |
-| Manager | Jim McGarrahan | mcgarr@us.ibm.com |
-| Scrum Master | Eric Garcia | engarcia@us.ibm.com |
-| Developer | Michael Billau | billaumr@us.ibm.com |
-| Developer | Ryan Berger | bergerr@us.ibm.com |
-| Developer | Chevy Hungerford | cshunger@us.ibm.com |
+## Scenario
 
---------------------------------
+This app is a sample for a utilities inspection company. This company sends inspectors out to detail and report on a utilities information and status. 
 
-## Development Environment Setup
+The app provides several specific functions:
 
-1. Install [mfpdev cli](npm install -g mfpdev-cli) `$ npm install -g mfpdev-cli`
-2. Install [node.js](https://nodejs.org/en/)
-2. Install [ionic](http://ionicframework.com/getting-started/) on the command line `$ npm install -g cordova ionic`
-3. `$ git clone https://github.ibm.com/cord-americas/utilities-demo.git` this repository
-4. `$ cd utilites-demo` into the app folder
-5. `$ cordova platform add ios` add the ios platform
-6. `$ cordova plugin add cordova-plugin-mfp` add the mfp plugin
-7. `$ cordova build ios; cordova emulate ios` build ios platform and emulate
+1. Prompts the inspector with a login page to keep the data secure from unauthorized access
+2. Maintains a list of work orders for each inspector, and provides a from to fill them out when completed
+3. Checks the weather at the site of each work order to alert the inspector of dangerous weather conditions ahead of time
+4. Transcribes speech so the work order can be completed by reading the inspection information
 
---------------------------------
+## Setup
 
-## Pushing Changes
+This demo relies on services provided by the IBM Bluemix cloud, so the user must have a Bluemix account in order to continue.
 
-1.  Make sure this meets the definition of done (in task)
-2.  Do a code review
-3.  Check your branch with `$git branch`
-3. `$ git status` to see what files were changes
-4. `$ git add` relevant files
-4. `$ git commit -m "issue number as well as significant message (i.e. #1 adding jsonstore integration) "`
-5. `$ git push` to your branch
-6.  Do a pull request into master branch when all necessary changes are added
-7.  Review task with team to close the issue
+***NOTE:*** Some of services used here are not free. Using them may incur a cost.
 
---------------------------------
+Follow the steps in the [Quick Start lab](https://github.ibm.com/cord-americas/utilities-demo/blob/labs/labs/2.%20quick-start.md) to provision the appropriate services and deploy the app.
 
-## Team Links:
-  * [PowerPoint (storyboards)](https://ibm.box.com/s/hb1kn5kvp0aoi5pbdd923zkvh4iesba4)
-  * [Mural](http://mur.al/m700RMLw)
-  * [Bluemix Asset Inspection App](http://www.ibm.com/mobilefirst/us/en/mobilefirst-for-ios/industries/energy-and-utilities/asset-inspect/)
-  * [Box note description](https://ibm.app.box.com/notes/73132132721)
-  * [MFP Server on Bluemix](https://omega-mfp-dv-server.mybluemix.net/mfpconsole/)
-  
+## Labs
+
+There are a series of labs [here](https://github.ibm.com/cord-americas/utilities-demo/tree/labs/labs) to walk users through creating the main components in this demo.
+
+Click any of the links below to check out a specific lab.
+
+1. [MobileFirst Adapters](/labs/3.%20adapters.md)
+2. [MobileFirst Security](/labs/4.%20security.md)
+3. [Cloudant](labs/3.1%20Creating%20a%20Cloudant%20Adapter.md)
+4. [Weather Company Data](/labs/3.2%20Working%20with%20Weather%20Company%20Data%20.md)
+5. [Watson Speech-to-Text](/labs/5.%20speet-to-text.md)
