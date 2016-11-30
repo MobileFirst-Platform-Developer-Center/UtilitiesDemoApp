@@ -75,10 +75,8 @@ This is the json structure for POSTing and PUTing users:
 
 ```json
 {
-  "_id": "303012250",
-  "_rev": "10-3e60aeee4f58b3da87ee77c889c86fb4",
-  "addedBy": "Cosmo Kramer",
-  "assignedTo": "George Costanza",
+  "addedBy":"Cosmo Kramer",
+  "assignedTo":"George Costanza",
   "location": 
   {
     "city": "Durham",
@@ -86,21 +84,19 @@ This is the json structure for POSTing and PUTing users:
     "street": "Main St",
     "zip": 27968
   },
-  "created": "Aug 11, 2016 1:47:59 PM",
   "inspectionFinished": true,
-  "details": 
+  "details":
   {
-    "model": "Dishwasher 1",
-    "serial": "123ABC",
-    "manufacturer": "Sears",
-    "inspectedBy": "George Costanza",
-    "failReason": "Some reason here.",
-    "fileName": "Sears-dishwasher1",
-    "notes": "Notes go here.",
-    "manufactureYear": 2016,
-    "lastInspected": "Oct 20, 2013 8:00:00 PM",
-    "date": "Aug 11, 2016 4:05:09 PM",
-    "inspectionPass": false
+    "model":"Dishwasher 1",
+    "serial":"123ABC",
+    "manufacturer":"Sears",
+    "manufactureYear":2016,
+    "lastInspected":"2013-10-21",
+    "inspectedBy":"George Costanza",
+    "inspectionPass": false,
+    "failReason":"Some reason here.",
+    "fileName":"Sears-dishwasher1",
+    "notes":"Notes go here."
   }
 }
 ```
