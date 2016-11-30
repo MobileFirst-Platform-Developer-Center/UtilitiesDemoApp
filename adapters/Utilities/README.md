@@ -53,6 +53,9 @@
 	- `failReason` - only if `inspectionPass` is "true"
 - Optional fields
 	- `asignedTo`
+	- `location`
+		- `number`
+		- `street`
 	- `model`
 	- `serial`
 	- `manufacturer`
