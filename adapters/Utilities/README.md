@@ -1,6 +1,6 @@
 # MobileFirst Utilities Adapter
 
-*All endpoints below should be prefixed with the url `http://{MobileFirst server}/mfp/api/adapters/CloudantUtilities`*
+*All endpoints below should be prefixed with the url `http://{MobileFirst server}/mfp/api/adapters/Utilities`*
 
 ## Document Structure
 
@@ -12,7 +12,13 @@
   "_rev": "10-3e60aeee4f58b3da87ee77c889c86fb4",
   "addedBy": "Cosmo Kramer",
   "assignedTo": "George Costanza",
-  "location": "Durham, NC",
+  "location": 
+  {
+    "city": "Durham",
+    "state": "NC",
+    "street": "Main St",
+    "zip": 27968
+  },
   "created": "Aug 11, 2016 1:47:59 PM",
   "inspectionFinished": true,
   "details": 
@@ -34,6 +40,10 @@
 - Required fields
 	- `addedBy`
 	- `inspectionFinished` - boolean "true" or "false"
+	- `location`
+		- `city`
+		- `state`
+		- `zip`
 - Conditional fields
 	- `details` - only if `inspectionFinished` is "true"
 	- `inspectedBy` - only if `inspectionFinished` is "true"
@@ -43,7 +53,6 @@
 	- `failReason` - only if `inspectionPass` is "true"
 - Optional fields
 	- `asignedTo`
-	- `location`
 	- `model`
 	- `serial`
 	- `manufacturer`
@@ -66,22 +75,32 @@ This is the json structure for POSTing and PUTing users:
 
 ```json
 {
-  "addedBy":"Cosmo Kramer",
-  "assignedTo":"George Costanza",
-  "location":"Durham, NC",
-  "inspectionFinished": true,
-  "details":
+  "_id": "303012250",
+  "_rev": "10-3e60aeee4f58b3da87ee77c889c86fb4",
+  "addedBy": "Cosmo Kramer",
+  "assignedTo": "George Costanza",
+  "location": 
   {
-    "model":"Dishwasher 1",
-    "serial":"123ABC",
-    "manufacturer":"Sears",
-    "manufactureYear":2016,
-    "lastInspected":"2013-10-21",
-    "inspectedBy":"George Costanza",
-    "inspectionPass": false,
-    "failReason":"Some reason here.",
-    "fileName":"Sears-dishwasher1",
-    "notes":"Notes go here."
+    "city": "Durham",
+    "state": "NC",
+    "street": "Main St",
+    "zip": 27968
+  },
+  "created": "Aug 11, 2016 1:47:59 PM",
+  "inspectionFinished": true,
+  "details": 
+  {
+    "model": "Dishwasher 1",
+    "serial": "123ABC",
+    "manufacturer": "Sears",
+    "inspectedBy": "George Costanza",
+    "failReason": "Some reason here.",
+    "fileName": "Sears-dishwasher1",
+    "notes": "Notes go here.",
+    "manufactureYear": 2016,
+    "lastInspected": "Oct 20, 2013 8:00:00 PM",
+    "date": "Aug 11, 2016 4:05:09 PM",
+    "inspectionPass": false
   }
 }
 ```
