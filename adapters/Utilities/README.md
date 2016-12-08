@@ -1,6 +1,6 @@
 # MobileFirst Utilities Adapter
 
-*All endpoints below should be prefixed with the url `http://{MobileFirst server}/mfp/api/adapters/CloudantUtilities`*
+*All endpoints below should be prefixed with the url `http://{MobileFirst server}/mfp/api/adapters/Utilities`*
 
 ## Document Structure
 
@@ -12,7 +12,13 @@
   "_rev": "10-3e60aeee4f58b3da87ee77c889c86fb4",
   "addedBy": "Cosmo Kramer",
   "assignedTo": "George Costanza",
-  "location": "Durham, NC",
+  "location": 
+  {
+    "city": "Durham",
+    "state": "NC",
+    "street": "Main St",
+    "zip": 27968
+  },
   "created": "Aug 11, 2016 1:47:59 PM",
   "inspectionFinished": true,
   "details": 
@@ -34,6 +40,10 @@
 - Required fields
 	- `addedBy`
 	- `inspectionFinished` - boolean "true" or "false"
+	- `location`
+		- `city`
+		- `state`
+		- `zip`
 - Conditional fields
 	- `details` - only if `inspectionFinished` is "true"
 	- `inspectedBy` - only if `inspectionFinished` is "true"
@@ -44,6 +54,8 @@
 - Optional fields
 	- `asignedTo`
 	- `location`
+		- `number`
+		- `street`
 	- `model`
 	- `serial`
 	- `manufacturer`
@@ -68,7 +80,13 @@ This is the json structure for POSTing and PUTing users:
 {
   "addedBy":"Cosmo Kramer",
   "assignedTo":"George Costanza",
-  "location":"Durham, NC",
+  "location": 
+  {
+    "city": "Durham",
+    "state": "NC",
+    "street": "Main St",
+    "zip": 27968
+  },
   "inspectionFinished": true,
   "details":
   {
