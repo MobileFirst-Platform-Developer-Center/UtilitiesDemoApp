@@ -11,49 +11,44 @@ BLUE="\033[1;96m"
 RED="\033[7;91m"
 NC="\033[0m" # No Color
 
-# check if user is logged in
+# logout from cf
+cf logout
+
+echo "Choose a location:"
+
+# list of locations
+locations="US-South
+UK
+Australia"
+
+# pick a location
+select loc in $locations;
+
+do
+	if [ "$loc" = "US-South" ]; then
+		url="https://api.ng.bluemix.net"
+        break
+	elif [ "$loc" = "UK" ]; then
+		url="https://api.eu-gb.bluemix.net"
+        break
+    elif [ "$loc" = "Australia" ]; then
+		url="https://api.au-syd.bluemix.net"
+        break
+	else
+		echo "Invalid choice"
+	fi
+done
+
+echo
+
+# login to cf
+cf login -a $url
+
+# check if login was successful
 auth=$(cf apps)
 
-if [[ $auth = *"Not logged in"* ]]; then
-	echo "Choose a location:"
-
-	# list of locations
-	locations="US-South
-	UK
-    Australia"
-
-	# pick a location
-	select loc in $locations;
-
-	do
-		if [ "$loc" = "US-South" ]; then
-			url="https://api.ng.bluemix.net"
-            break
-		elif [ "$loc" = "UK" ]; then
-			url="https://api.eu-gb.bluemix.net"
-            break
-        elif [ "$loc" = "Australia" ]; then
-			url="https://api.au-syd.bluemix.net"
-            break
-		else
-			echo "Invalid choice"
-		fi
-	done
-
-	echo
-
-	# login to cf
-	cf login -a $url
-
-	# check if login was successful
-	auth=$(cf apps)
-
-	if [[ $auth = *"FAILED"* ]] || [[ $auth = *"Not logged in"* ]]; then
-		echo -e "${RED}Login unsuccessful.${NC}"
-		exit
-	fi
-elif [[ $auth = *"FAILED"* ]]; then
-	echo -e "${RED}No internet connection.${NC}"
+if [[ $auth = *"FAILED"* ]] || [[ $auth = *"Not logged in"* ]]; then
+	echo -e "${RED}Login unsuccessful.${NC}"
 	exit
 fi
 
