@@ -212,7 +212,7 @@ while (( $(( $counter < 600 )) )); do
 done
 
 # Update mfpdev
-serverUrl=$(grep mf-utilities <<< "$apps" | sed 's/^.* //')
+serverUrl=$(grep mf-utilities <<< "$apps" | xargs | sed 's/^.* //')
 
 echo "The page for the server is about to open in your browser. Click the eye icon next to 'Password' and copy the password into the prompt."
 echo -e "${BLUE}When the page opens the server may still be starting up. Please be patient and wait for it to finish.${NC}"
