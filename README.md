@@ -11,4 +11,9 @@ Useful Links:
   ## MFP Server on Bluemix
 
   [omega-mfp-dv-server.mybluemix.net](https://omega-mfp-dv-server.mybluemix.net/mfpconsole/)
-  
+
+
+
+  ### License
+
+Refer to [License](./License.md)

@@ -78,14 +78,14 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <mfp:android>
-        <mfp:sdkChecksum>1638037605</mfp:sdkChecksum>
+        <mfp:sdkChecksum>3937717781</mfp:sdkChecksum>
         <mfp:appChecksum>0</mfp:appChecksum>
         <mfp:security>
             <mfp:testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3" />
         </mfp:security>
     </mfp:android>
     <mfp:ios>
-        <mfp:sdkChecksum>2417110129</mfp:sdkChecksum>
+        <mfp:sdkChecksum>3740100969</mfp:sdkChecksum>
         <mfp:appChecksum>0</mfp:appChecksum>
         <mfp:security>
             <mfp:testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3" />
@@ -112,7 +112,7 @@
         </mfp:windows10>
         <mfp:appChecksum>0</mfp:appChecksum>
     </mfp:windows>
-    <mfp:platformVersion>8.0.0.00-20160803-1114</mfp:platformVersion>
+    <mfp:platformVersion>8.0.0.00-20161014-1546</mfp:platformVersion>
     <mfp:clientCustomInit enabled="false" />
     <mfp:server runtidme="mfp" runtime="mfp" url="https://omega-mfp-dv-server.mybluemix.net:443" />
     <mfp:directUpdateAuthenticityPublicKey />
