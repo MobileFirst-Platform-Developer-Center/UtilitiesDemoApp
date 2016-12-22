@@ -3,7 +3,7 @@
 
 ## Scenario
 
-This app is a sample for a utilities inspection company. This company sends inspectors out to detail and report on a utilities information and status. 
+This app is a sample for a utilities inspection company. This company sends inspectors out to detail and report on a utilities information and status.
 
 The app provides several specific functions:
 
@@ -31,3 +31,8 @@ Click any of the links below to check out a specific lab.
 3. [Cloudant](labs/3.1%20Creating%20a%20Cloudant%20Adapter.md)
 4. [Weather Company Data](/labs/3.2%20Working%20with%20Weather%20Company%20Data%20.md)
 5. [Watson Speech-to-Text](/labs/5.%20speet-to-text.md)
+
+
+## License
+
+Refer to [License](./License.md)

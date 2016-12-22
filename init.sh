@@ -1,4 +1,19 @@
 #! /bin/bash
+#
+# Copyright 2016 IBM Corp.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 
 ##############################################
 #                   Login
@@ -11,49 +26,44 @@ BLUE="\033[1;96m"
 RED="\033[7;91m"
 NC="\033[0m" # No Color
 
-# check if user is logged in
+# logout from cf
+cf logout
+
+echo "Choose a location:"
+
+# list of locations
+locations="US-South
+UK
+Australia"
+
+# pick a location
+select loc in $locations;
+
+do
+	if [ "$loc" = "US-South" ]; then
+		url="https://api.ng.bluemix.net"
+        break
+	elif [ "$loc" = "UK" ]; then
+		url="https://api.eu-gb.bluemix.net"
+        break
+    elif [ "$loc" = "Australia" ]; then
+		url="https://api.au-syd.bluemix.net"
+        break
+	else
+		echo "Invalid choice"
+	fi
+done
+
+echo
+
+# login to cf
+cf login -a $url
+
+# check if login was successful
 auth=$(cf apps)
 
-if [[ $auth = *"Not logged in"* ]]; then
-	echo "Choose a location:"
-
-	# list of locations
-	locations="US-South
-	UK
-    Australia"
-
-	# pick a location
-	select loc in $locations;
-
-	do
-		if [ "$loc" = "US-South" ]; then
-			url="https://api.ng.bluemix.net"
-            break
-		elif [ "$loc" = "UK" ]; then
-			url="https://api.eu-gb.bluemix.net"
-            break
-        elif [ "$loc" = "Australia" ]; then
-			url="https://api.au-syd.bluemix.net"
-            break
-		else
-			echo "Invalid choice"
-		fi
-	done
-
-	echo
-
-	# login to cf
-	cf login -a $url
-
-	# check if login was successful
-	auth=$(cf apps)
-
-	if [[ $auth = *"FAILED"* ]] || [[ $auth = *"Not logged in"* ]]; then
-		echo -e "${RED}Login unsuccessful.${NC}"
-		exit
-	fi
-elif [[ $auth = *"FAILED"* ]]; then
-	echo -e "${RED}No internet connection.${NC}"
+if [[ $auth = *"FAILED"* ]] || [[ $auth = *"Not logged in"* ]]; then
+	echo -e "${RED}Login unsuccessful.${NC}"
 	exit
 fi
 
@@ -94,6 +104,14 @@ echo -e "${YELLOW}==> Provisioning Weather Insights...${NC}"
 echo
 
 cf create-service weatherinsights 'Free-v2' weather-utilities
+
+# Create the Watson service
+echo
+echo
+echo -e "${YELLOW}==> Provisioning Watson Speech to Text...${NC}"
+echo
+
+cf create-service 'speech_to_text' 'standard' stt-utilities
 
 ##############################################
 #                   Keys
@@ -151,6 +169,22 @@ if [[ $serv = *"weather-utilities"* ]]; then
     weatherPass=$(grep password <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
 else
     echo -e "${RED}Error adding Weather${NC}"
+fi
+
+# Add the Watson credentials
+if [[ $serv = *"stt-utilities"* ]]; then
+    echo
+    echo
+    echo -e "${YELLOW}==> Setting up Watson Speech to Text...${NC}"
+    echo
+
+    # Add credentials
+    cf create-service-key stt-utilities Credentials
+    sttCreds=$(cf service-key stt-utilities Credentials)
+    sttUser=$(grep username <<< "$sttCreds" | sed 's/^.*: //' | tr -d ',"')
+    sttPass=$(grep password <<< "$sttCreds" | sed 's/^.*: //' | tr -d ',"')
+else
+    echo -e "${RED}Error adding Watson Speech to Text${NC}"
 fi
 
 ##############################################
@@ -217,7 +251,7 @@ while (( $(( $counter < 600 )) )); do
 done
 
 # Update mfpdev
-serverUrl=$(grep mf-utilities <<< "$apps" | sed 's/^.* //')
+serverUrl=$(grep mf-utilities <<< "$apps" | xargs | sed 's/^.* //')
 
 echo "The page for the server is about to open in your browser. Click the eye icon next to 'Password' and copy the password into the prompt."
 echo -e "${BLUE}When the page opens the server may still be starting up. Please be patient and wait for it to finish.${NC}"
@@ -280,7 +314,7 @@ mfpdev server console mf-utilities
 
 # Output the Utilities variables
 echo
-echo -e "${GREEN}Here are your credentials. Add them to the Utilities adapter on the Mobile First service.${NC}"
+echo -e "${GREEN}Add these credentials to the Utilities adapter on the Mobile First service.${NC}"
 echo
 echo "Cloudant Username: $cloudantUser"
 echo "Cloudant Api Key: $apiKey"
@@ -288,3 +322,10 @@ echo "Cloudant Api Password: $cloudantPass"
 echo "Cloudant Database Name: orders"
 echo "Weather Username: $weatherUser"
 echo "Weather Password: $weatherPass"
+
+# Output the Watson variables
+echo
+echo -e "${GREEN}Add these credentials to the WatsonJava adapter on the Mobile First service.${NC}"
+echo
+echo "Username: $sttUser"
+echo "Password: $sttPass"

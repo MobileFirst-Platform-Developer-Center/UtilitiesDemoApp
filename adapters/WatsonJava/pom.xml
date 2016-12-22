@@ -1,0 +1,104 @@
+<!--
+	Licensed Materials - Property of IBM
+	5725-I43 (C) Copyright IBM Corp. 2011, 2015. All Rights Reserved.
+	US Government Users Restricted Rights - Use, duplication or
+	disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>myGroupId</groupId>
+	<artifactId>WatsonJava</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>adapter</packaging>
+	<name>WatsonJava</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.ibm.mfp</groupId>
+			<artifactId>adapter-maven-api</artifactId>
+			<scope>provided</scope>
+			<version>8.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mfp</groupId>
+			<artifactId>mfp-security-checks-base</artifactId>
+			<version>8.0.0</version>
+		</dependency>
+    <dependency>
+  			<groupId>com.ibm.watson.developer_cloud</groupId>
+  			<artifactId>java-wrapper</artifactId>
+  			<version>RELEASE</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>commons-io</groupId>
+  			<artifactId>commons-io</artifactId>
+  			<version>2.4</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>com.ibm.watson.developer_cloud</groupId>
+  			<artifactId>java-sdk</artifactId>
+  			<version>2.9.0</version>
+  		</dependency>
+
+
+
+      <dependency>
+          <groupId>javax.json</groupId>
+          <artifactId>javax.json-api</artifactId>
+          <version>1.0</version>
+      </dependency>
+
+
+      <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+    <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.2.12</version>
+    </dependency>
+
+      <!-- stackoverflow.com/questions/22812113/http-status-500-provider-org-glassfish-json-jsonproviderimpl-not-found-->
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.json</artifactId>
+        <version>1.0.4</version>
+      </dependency>
+<!-- http://stackoverflow.com/questions/29226853/cant-find-formdataparam-in-jersey-2-17-->
+    <dependency>
+    <groupId>org.glassfish.jersey.media</groupId>
+    <artifactId>jersey-media-multipart</artifactId>
+    <version>2.17</version>
+</dependency>
+
+      <dependency>
+          <groupId>com.squareup.okhttp3</groupId>
+          <artifactId>okhttp</artifactId>
+          <version>3.4.1</version>
+      </dependency>
+
+  </dependencies>
+
+	<properties>
+    <!-- Use UTF-8 as the encoding of the adapter -->
+    <!-- i added thsi in after looking at the utilities one...-->
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- MobileFirst adapter deployment properties -->
+		<mfpfUrl>http://localhost:9080/mfpadmin</mfpfUrl>
+		<mfpfUser>admin</mfpfUser>
+		<mfpfPassword>admin</mfpfPassword>
+		<mfpfRuntime>mfp</mfpfRuntime>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.ibm.mfp</groupId>
+				<artifactId>adapter-maven-plugin</artifactId>
+				<version>8.0.0</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
