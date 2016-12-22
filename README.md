@@ -30,7 +30,7 @@ Click any of the links below to check out a specific lab.
 2. [MobileFirst Security](/labs/4.%20security.md)
 3. [Cloudant](labs/3.1%20Creating%20a%20Cloudant%20Adapter.md)
 4. [Weather Company Data](/labs/3.2%20Working%20with%20Weather%20Company%20Data%20.md)
-5. [Watson Speech-to-Text](/labs/5.%20speet-to-text.md)
+5. [Watson Speech-to-Text](/labs/5.%20Adding%20Watson%20Speech%20to%20Text.md)
 
 
 ## License
