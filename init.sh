@@ -105,6 +105,14 @@ echo
 
 cf create-service weatherinsights 'Free-v2' weather-utilities
 
+# Create the Watson service
+echo
+echo
+echo -e "${YELLOW}==> Provisioning Watson Speech to Text...${NC}"
+echo
+
+cf create-service 'speech_to_text' 'standard' stt-utilities
+
 ##############################################
 #                   Keys
 ##############################################
@@ -161,6 +169,22 @@ if [[ $serv = *"weather-utilities"* ]]; then
     weatherPass=$(grep password <<< "$weatherCreds" | sed 's/^.*: //' | tr -d ',"')
 else
     echo -e "${RED}Error adding Weather${NC}"
+fi
+
+# Add the Watson credentials
+if [[ $serv = *"stt-utilities"* ]]; then
+    echo
+    echo
+    echo -e "${YELLOW}==> Setting up Watson Speech to Text...${NC}"
+    echo
+
+    # Add credentials
+    cf create-service-key stt-utilities Credentials
+    sttCreds=$(cf service-key stt-utilities Credentials)
+    sttUser=$(grep username <<< "$sttCreds" | sed 's/^.*: //' | tr -d ',"')
+    sttPass=$(grep password <<< "$sttCreds" | sed 's/^.*: //' | tr -d ',"')
+else
+    echo -e "${RED}Error adding Watson Speech to Text${NC}"
 fi
 
 ##############################################
@@ -290,7 +314,7 @@ mfpdev server console mf-utilities
 
 # Output the Utilities variables
 echo
-echo -e "${GREEN}Here are your credentials. Add them to the Utilities adapter on the Mobile First service.${NC}"
+echo -e "${GREEN}Add these credentials to the Utilities adapter on the Mobile First service.${NC}"
 echo
 echo "Cloudant Username: $cloudantUser"
 echo "Cloudant Api Key: $apiKey"
@@ -298,3 +322,10 @@ echo "Cloudant Api Password: $cloudantPass"
 echo "Cloudant Database Name: orders"
 echo "Weather Username: $weatherUser"
 echo "Weather Password: $weatherPass"
+
+# Output the Watson variables
+echo
+echo -e "${GREEN}Add these credentials to the WatsonJava adapter on the Mobile First service.${NC}"
+echo
+echo "Username: $sttUser"
+echo "Password: $sttPass"
