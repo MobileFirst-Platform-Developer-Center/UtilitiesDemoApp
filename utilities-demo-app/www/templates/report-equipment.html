@@ -29,14 +29,17 @@ limitations under the License.
       <span class="street">{{address}}</span><br />
     </div>
 
+    <!-- We want the recorder controls to stick to the top -->
+  <div class = "row">
+    <div class="button-bar">
+       <a class="button icon ion-mic-a" ng-click="record()"></a>
+       <a class="button icon ion-share" ng-click="selectExistingFile()"></a>
+       <a class="button icon ion-help-circled" ng-click="getHelp()"></a>
+      <!-- <a class="button icon ion-android-cancel" ng-click="resetRecorder()"></a>-->
+    </div>
+  </div>
+
 		<ion-list>
-
-			<!-- Watson Image -->
-			<ion-item class="item-icon-right" ng-click="recordVoice()">
-				Watson Voice Recognition
-				<i class="icon ion-mic-a"></i>
-			</ion-item>
-
 			<!-- Model -->
 			<ion-item class="item-input item-floating-label">
 				<span class="input-label">Model</span>
@@ -81,7 +84,7 @@ limitations under the License.
 			<!-- Notes -->
 			<ion-item class="item-input item-floating-label">
 				<span class="input-label">Comments</span>
-				<textarea placeholder="enter notes here..."></textarea>
+				<textarea placeholder="enter notes here..." ng-model="details.comments"></textarea>
 			</ion-item>
 
 		</ion-list>
