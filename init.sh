@@ -261,6 +261,8 @@ open $mfUrl
 
 read -p "Password: " serverPass
 
+#Remove the entry for mf-utilities in case we are running this script multiple times
+mfpdev server remove mf-utilities
 mfpdev server add mf-utilities -u "https://$serverUrl:443" -l admin -p "$serverPass" -c mfpadmin
 
 # Setup mfp
