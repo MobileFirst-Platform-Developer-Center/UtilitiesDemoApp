@@ -314,9 +314,10 @@ echo -e "${YELLOW}==X init.sh has completed${NC}"
 # Tell user to deploy adapter
 echo
 echo
-echo -e "The ${BLUE}Utilities${NC} adapter was unable to be deployed. You must deploy the adapter manually in the Mobile Foundation console."
+echo -e "The ${BLUE}Utilities${NC} and ${BLUE}Watson{NC} adapters were unable to be deployed. You must deploy the adapters manually in the Mobile Foundation console."
 echo -e "In the console select ${BLUE}Adapters${NC} on the left, click ${BLUE}Actions${NC} on the top right, and click ${BLUE}Deploy Adapter${NC}."
 echo -e "Navigate to the ${BLUE}adapters/Utilities/target${NC} folder and choose ${BLUE}Utilities.adapter${NC} file."
+echo -e "Then, repeate these steps but for the ${BLUE}adapters/WatsonJava/target/WatsonJava.adapter${NC} adapter file."
 echo "When you are done, come back to the this terminal to find the configuration variables for the adapter."
 echo
 read -p "Press any button to open the Mobile First Console..."
