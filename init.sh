@@ -262,6 +262,7 @@ serverUrl=$(grep mf-utilities <<< "$apps" | xargs | sed 's/^.* //')
 
 echo "The page for the server is about to open in your browser. Click the eye icon next to 'Password' and copy the password into the prompt."
 echo -e "${BLUE}When the page opens the server may still be starting up. Please be patient and wait for it to finish.${NC}"
+echo -e "Make sure you save this password somewhere!"
 read -p "Press any button to open the browser..."
 
 open $mfUrl
