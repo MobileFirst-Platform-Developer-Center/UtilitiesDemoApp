@@ -224,14 +224,14 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
         // STATUS_READY at first, so we can use this to code block to give them an
         // instructional popup if we want. If they have hit record() the recorder
         // will already be recording in this state, so don't let them read too much!
-        var t = 'Recording Now! Say these keywords:\n\n';
-         t += keywords.toString().replace(/,/g, "\n\n");
-      //  t+='<ul><li>Model</li><li>Manufacturer</li><li>Manufacturer Year</li><li>Status</li></ul>';
-        t+='\n\nHit STOP to save and uplaod!';
+        var t = 'Recording Now! Say these keywords:<br><br>';
+         t += keywords.toString().replace(/,/g, "<br><br>");
+        t+='<br><br>Hit "Stop Recording" to save and uplaod!';
 
         var alertPopup = $ionicPopup.alert({
     			title: 'Recording now!',
-    			template: t
+    			template: t,
+    			okText: "Stop Recording"
     		});
     		alertPopup.then(function(res) {
             $scope.recorder.stop();
