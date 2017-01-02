@@ -353,27 +353,23 @@ app.controller('ReportEquipmentCtrl', function($scope, $state, $ionicNavBarDeleg
                                parseWatsonResponse(response);
 
                         },function(e){
-                               console.log("warning from blob:" + JSON.stringify(e));
                                console.log(JSON.stringify(e));
                                alert("No recording could be parsed by Watson, please try again");
                         });
                   }// reader onloadend
 
-                 }catch(e){console.log("****** E:" +e)}
+                 }catch(e){console.log("error:" +e)}
 
 
           });//fileENtry
       });//resolveLocalFileSystemURL
   }
     // Parse the response from Watson Speech to Text service
-    // We are just going to pull out they keywords and fill in our form
+    // Here you can parse out the keywords and fill in the appropriate form fields
   function parseWatsonResponse(response){
-    console.log("Parsing this:");
     console.log(JSON.stringify(response));
-    // Not sure the correct angular way to update this form
     // Here we will update based on our keywords data
     $scope.details.comments = response.responseText;
     $scope.apply();
-    //angular.element("#comments").innerHTML = response.responseText;
   }
 });
