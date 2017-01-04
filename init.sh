@@ -221,18 +221,6 @@ echo -e "${YELLOW}==> Installing ngCordova...${NC}"
 echo
 bower install ngCordova
 
-echo
-echo
-echo -e "${YELLOW}==> Preparing...${NC}"
-echo
-ionic prepare
-
-echo
-echo
-echo -e "${YELLOW}==> Building project...${NC}"
-echo
-ionic build
-
 # Check if the server is runnning
 apps=$(cf apps)
 finished=$(grep "mf-utilities" <<< "$apps")
@@ -285,6 +273,12 @@ echo
 echo -e "${YELLOW}==> Preparing...${NC}"
 echo
 ionic prepare
+
+echo
+echo
+echo -e "${YELLOW}==> Building project...${NC}"
+echo
+ionic build
 
 # Build and deploy adapters
 echo
