@@ -329,7 +329,7 @@ echo -e "${GREEN}Add these credentials to the Utilities adapter on the Mobile Fi
 echo
 echo "Cloudant Username: $cloudantUser"
 echo "Cloudant Api Key: $apiKey"
-echo "Cloudant Api Password: $cloudantPass OR  $apiPass"
+echo "Cloudant Api Password: $apiPass"
 echo "Cloudant Database Name: orders"
 echo "Weather Username: $weatherUser"
 echo "Weather Password: $weatherPass"
