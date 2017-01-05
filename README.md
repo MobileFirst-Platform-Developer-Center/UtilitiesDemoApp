@@ -18,7 +18,7 @@ This demo relies on services provided by the IBM Bluemix cloud, so the user must
 
 ***NOTE:*** Some of services used here are not free. Using them may incur a cost.
 
-Follow the steps in the [Quick Start lab](./labs/Quick\ Start.md) to provision the appropriate services and deploy the app.
+Follow the steps in the [Quick Start lab](./labs/0.\ Quick\ Start.md) to provision the appropriate services and deploy the app.
 
 ## Labs
 
