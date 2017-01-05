@@ -26,11 +26,11 @@ There are a series of labs [here](./labs/labs) to walk users through creating th
 
 Click any of the links below to check out a specific lab.
 
-1. [MobileFirst Adapters](./labs/3.\ adapters.md)
-2. [MobileFirst Security](./labs/4.\ security.md)
-3. [Cloudant](./labs/3.1\ Creating\ a\ Cloudant\ Adapter.md)
-4. [Weather Company Data](./labs/3.2\ Working\ with\ Weather\ Company\ Data.md)
-5. [Watson Speech-to-Text](./labs/5.\ Adding\ Watson\ Speech\ to\ Text.md)
+1. [MobileFirst Adapters](./labs/1.\ Adapters\ Overview.md)
+1. [Cloudant](./labs/2\ Creating\ a\ Cloudant\ Adapter.md)
+1. [Weather Company Data](./labs/3\ Working\ with\ Weather\ Company\ Data.md)
+1. [MobileFirst Security](./labs/4.\ Working\ with\ Login\ Security.md)
+1. [Watson Speech-to-Text](./labs/5.\ Adding\ Watson\ Speech\ to\ Text.md)
 
 
 ## License
