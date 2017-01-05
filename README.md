@@ -18,11 +18,11 @@ This demo relies on services provided by the IBM Bluemix cloud, so the user must
 
 ***NOTE:*** Some of services used here are not free. Using them may incur a cost.
 
-Follow the steps in the [Quick Start lab](https://github.ibm.com/cord-americas/utilities-demo/blob/master/labs/2.%20quick-start.md) to provision the appropriate services and deploy the app.
+Follow the steps in the [Quick Start lab](../labs/2.%20quick-start.md) to provision the appropriate services and deploy the app.
 
 ## Labs
 
-There are a series of labs [here](https://github.ibm.com/cord-americas/utilities-demo/tree/labs/labs) to walk users through creating the main components in this demo.
+There are a series of labs [here](../labs/labs) to walk users through creating the main components in this demo.
 
 Click any of the links below to check out a specific lab.
 
