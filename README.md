@@ -22,7 +22,7 @@ Follow the steps in the [Quick Start lab](./labs/0.\ Quick\ Start.md) to provisi
 
 ## Labs
 
-There are a series of labs [here](./labs/labs) to walk users through creating the main components in this demo.
+There are a series of labs [here](./labs) to walk users through creating the main components in this demo.
 
 Click any of the links below to check out a specific lab.
 
