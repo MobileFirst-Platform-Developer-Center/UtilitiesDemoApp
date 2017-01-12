@@ -4,7 +4,7 @@ In this lab, we will be taking on the role of an application developer who works
 
 ## Quick Start
 
-Make sure that you view the [Quickstart lab](/0. Quick Start.md) to get up and running with the complete demo quickly. This part of the lab includes a script you can run that will automatically provision the needed Bluemix services, build the adapters we will be using, set up and install all of our Cordova plugins, and then build and run the sample application. This is the easiest way to get started with the full lab.
+Make sure that you view the [Quickstart lab](/0.\ Quick\ Start.md) to get up and running with the complete demo quickly. This part of the lab includes a script you can run that will automatically provision the needed Bluemix services, build the adapters we will be using, set up and install all of our Cordova plugins, and then build and run the sample application. This is the easiest way to get started with the full lab.
 
 ## Labs
 
